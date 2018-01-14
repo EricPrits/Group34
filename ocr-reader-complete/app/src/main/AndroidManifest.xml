@@ -22,11 +22,17 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="ocr" />
 
-        <activity android:name="com.google.android.gms.samples.vision.ocrreader.OcrCaptureActivity"
+        <activity android:name="com.google.android.gms.samples.vision.ocrreader.Main"
             android:label="Read Text">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.google.android.gms.samples.vision.ocrreader.OcrCaptureActivity" >
+            <!--Default Intent Filter-->
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
     </application>
