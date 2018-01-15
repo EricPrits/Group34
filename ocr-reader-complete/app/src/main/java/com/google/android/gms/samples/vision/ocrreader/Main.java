@@ -38,11 +38,18 @@ public class Main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        ArrayList<String> array = new ArrayList<String>();
-        array.add("Test");
-        EditText editText = (EditText)findViewById(R.id.editText);
-        for(int i =0;i<array.size();i++){
-            editText.setText(array.get(i));
+
+        if(getIntent().getExtras()!=null) {
+            Bundle bundle = getIntent().getExtras();
+            ArrayList<String> array = (ArrayList<String>) bundle.getStringArrayList("array_list");
+
+            //ArrayList<String> array = new ArrayList<String>();
+            array.add("Test");
+            array.add("Test2");
+            EditText editText = (EditText) findViewById(R.id.editText);
+            for (int i = 0; i < array.size(); i++) {
+                editText.setText(editText.getText() + array.get(i) + "\n");
+            }
         }
         final Button button = (Button) findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {

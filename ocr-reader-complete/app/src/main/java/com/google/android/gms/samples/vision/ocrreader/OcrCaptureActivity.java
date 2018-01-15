@@ -50,6 +50,7 @@ import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -59,7 +60,7 @@ import java.util.Locale;
  */
 public final class OcrCaptureActivity extends AppCompatActivity {
     private static final String TAG = "OcrCaptureActivity";
-
+    ArrayList<String> array = new ArrayList<String>();
     // Intent request code to handle updating play services if needed.
     private static final int RC_HANDLE_GMS = 9001;
 
@@ -256,6 +257,9 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         if (mPreview != null) {
             mPreview.release();
         }
+        Intent intent = new Intent(this, Main.class);
+        intent.putExtra("array_list", array);
+        startActivity(intent);
     }
 
     /**
@@ -349,6 +353,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
             text = graphic.getTextBlock();
             if (text != null && text.getValue() != null) {
                 Log.d(TAG, "text data is being spoken! " + text.getValue());
+                array.add(text.getValue());
                 // Speak the string.
                 tts.speak(text.getValue(), TextToSpeech.QUEUE_ADD, null, "DEFAULT");
             }
