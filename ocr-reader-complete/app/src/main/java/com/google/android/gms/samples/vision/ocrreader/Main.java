@@ -38,14 +38,14 @@ public class Main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
+        //When rerunning from phone fails due to intent not being ceared
         if(getIntent().getExtras()!=null) {
             Bundle bundle = getIntent().getExtras();
             ArrayList<String> array = (ArrayList<String>) bundle.getStringArrayList("array_list");
 
             //ArrayList<String> array = new ArrayList<String>();
             array.add("Test");
-            array.add("Test2");
+            //array.add("Test2");
             EditText editText = (EditText) findViewById(R.id.editText);
             for (int i = 0; i < array.size(); i++) {
                 editText.setText(editText.getText() + array.get(i) + "\n");
@@ -59,7 +59,6 @@ public class Main extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -70,5 +69,25 @@ public class Main extends AppCompatActivity {
 
 
 
+    }
+    protected String[] parseReceipt(String line){
+        String[] result = new String[3];
+        int quantity;
+        String price;
+        String itemName;
+        for(int i =0; i<line.length();i++){
+            if(line.charAt(i)=='x'){
+                quantity = (int)line.charAt(i-2);
+            }
+            else if (line.charAt(i)=='$'){
+                int j=i;
+                while(line.charAt(j)!=' '){
+                    j++;
+                    //price=
+                }
+            }
+        }
+
+        return result;
     }
 }
