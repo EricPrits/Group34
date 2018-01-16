@@ -1,5 +1,6 @@
 package a498.capstone;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,11 @@ public class CaptureTab extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.capture_tab, container, false);
         return rootView;
+    }
+    public void openCamera(View view){
+        Intent intent = new Intent(view.getContext(), OcrCaptureActivity.class);
+        //intent.putExtra("array_list", array);
+        startActivity(intent);
     }
 }
 

@@ -17,8 +17,8 @@ package a498.capstone;
 
 import android.util.Log;
 import android.util.SparseArray;
-
-import com.google.android.gms.samples.vision.ocrreader.ui.camera.GraphicOverlay;
+import a498.capstone.ui.camera.GraphicOverlay;
+//import com.google.android.gms.samples.vision.ocrreader.ui.camera.GraphicOverlay;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.text.TextBlock;
 

@@ -20,7 +20,8 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.google.android.gms.vision.CameraSource;
+//import com.google.android.gms.vision.CameraSource;
+import a498.capstone.*;
 
 import java.util.HashSet;
 import java.util.Set;

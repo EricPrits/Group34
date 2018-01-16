@@ -1,5 +1,6 @@
 package a498.capstone;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 
@@ -10,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -81,6 +83,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void openCamera(View view){
+        Intent intent = new Intent(view.getContext(), OcrCaptureActivity.class);
+        //intent.putExtra("array_list", array);
+        startActivity(intent);
     }
 
     /**

@@ -21,6 +21,9 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 
+import com.google.android.gms.vision.text.Text;
+import com.google.android.gms.vision.text.TextBlock;
+
 import a498.capstone.ui.camera.GraphicOverlay;
 import a498.capstone.ui.camera.CameraSource;
 import a498.capstone.ui.camera.CameraSourcePreview;
