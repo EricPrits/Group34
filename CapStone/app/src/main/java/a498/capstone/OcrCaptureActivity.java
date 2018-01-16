@@ -257,7 +257,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         if (mPreview != null) {
             mPreview.release();
         }
-        Intent intent = new Intent(this, Main.class);
+        Intent intent = new Intent(this, ParseReceipt.class);
         intent.putExtra("array_list", array);
         startActivity(intent);
     }

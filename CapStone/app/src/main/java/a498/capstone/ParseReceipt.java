@@ -33,12 +33,12 @@ import android.widget.TextView;
 import android.content.Intent;
 import java.util.ArrayList;
 
-public class Main extends AppCompatActivity {
+public class ParseReceipt extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        //When rerunning from phone fails due to intent not being ceared
+        setContentView(R.layout.parse_receipt);
+        //When rerunning from phone fails due to intent not being cleared
         if(getIntent().getExtras()!=null) {
             Bundle bundle = getIntent().getExtras();
             ArrayList<String> array = (ArrayList<String>) bundle.getStringArrayList("array_list");
@@ -54,20 +54,9 @@ public class Main extends AppCompatActivity {
         final Button button = (Button) findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), OcrCaptureActivity.class);
-                //intent.putExtra("array_list", array);
-                startActivity(intent);
+                finish();
             }
         });
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-
-
-        // Set up the ViewPager with the sections adapter.
-
-
 
     }
     protected String[] parseReceipt(String line){
