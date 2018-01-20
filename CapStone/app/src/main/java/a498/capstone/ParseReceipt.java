@@ -43,12 +43,12 @@ public class ParseReceipt extends AppCompatActivity {
             Bundle bundle = getIntent().getExtras();
             ArrayList<String> array = (ArrayList<String>) bundle.getStringArrayList("array_list");
 
-            //ArrayList<String> array = new ArrayList<String>();
+            ArrayList<String[]> parsed = new ArrayList<String[]>();
             array.add("Test");
-            //array.add("Test2");
             EditText editText = (EditText) findViewById(R.id.editText);
             for (int i = 0; i < array.size(); i++) {
                 editText.setText(editText.getText() + array.get(i) + "\n");
+                parsed.add(parseReceipt(array.get(i)));
             }
         }
         final Button button = (Button) findViewById(R.id.button2);
@@ -60,23 +60,33 @@ public class ParseReceipt extends AppCompatActivity {
 
     }
     protected String[] parseReceipt(String line){
-        String[] result = new String[3];
-        int quantity;
-        String price;
-        String itemName;
+        String[] result = new String[2];
+        int quantity= 0;
+        String itemName="blank";
         for(int i =0; i<line.length();i++){
-            if(line.charAt(i)=='x'){
-                quantity = (int)line.charAt(i-2);
-            }
-            else if (line.charAt(i)=='$'){
-                int j=i;
-                while(line.charAt(j)!=' '){
-                    j++;
-                    //price=
+            if(line.charAt(i)=='('){
+
+                if(line.charAt(i+2)==')'){
+                    quantity = (int)line.charAt(i+1);
+                    itemName = line.substring(i+3);
+                }
+                else{
+                    quantity = (int)(line.charAt(i+1) + line.charAt(i+2));
+                    itemName = line.substring(i+4);
                 }
             }
+            if ((line.charAt(i))=='$' || (line.charAt(i))=='@') {
+                //skipline
+                itemName="Skip";
+            }
+        }
+        if(quantity == 0 && !itemName.equals("Skip")){
+            quantity = 1;
+            itemName=line;
         }
 
+        result[0]= String.valueOf((char) quantity);
+        result[1]= itemName;
         return result;
     }
 }
