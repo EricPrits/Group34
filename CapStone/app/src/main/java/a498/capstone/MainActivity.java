@@ -1,9 +1,11 @@
 package a498.capstone;
 
+import android.app.ListActivity;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.app.ListActivity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,9 +18,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -62,8 +65,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    /*
     @Override
+    ** Called when the user touches the button * /
+    public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    String[] foods = {"Bananas", "Eggs", "Steak", "Cereal"};
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getListView().getContext(), android.R.layout.simple_list_item_1, foods);
+    getListView().setAdapter(adapter);
+    }
+    */
+
+
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);

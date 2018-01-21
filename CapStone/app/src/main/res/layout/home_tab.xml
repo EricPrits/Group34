@@ -28,6 +28,16 @@
         android:scaleType="centerCrop"
         android:src="@drawable/logo"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="24dp" />
+        tools:layout_editor_absoluteY="0dp" />
+
+    <ImageButton
+        android:layout_width="152dp"
+        android:layout_height="125dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/basketlogo"
+        tools:layout_editor_absoluteX="116dp"
+        tools:layout_editor_absoluteY="317dp" />
+    android:onClick="generateList" />
 
 </android.support.constraint.ConstraintLayout>
