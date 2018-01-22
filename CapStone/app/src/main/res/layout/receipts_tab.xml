@@ -7,8 +7,12 @@
     tools:context="a498.capstone.MainActivity"
     tools:layout_editor_absoluteY="81dp">
 
+
     <ListView
         android:id="@+id/receiptListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="394dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
