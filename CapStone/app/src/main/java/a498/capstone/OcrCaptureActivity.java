@@ -116,20 +116,6 @@ public final class OcrCaptureActivity extends AppCompatActivity {
                 Snackbar.LENGTH_LONG)
                 .show();
 
-        // Set up the Text To Speech engine.
-//        TextToSpeech.OnInitListener listener =
-//                new TextToSpeech.OnInitListener() {
-//                    @Override
-//                    public void onInit(final int status) {
-//                        if (status == TextToSpeech.SUCCESS) {
-//                            Log.d("OnInitListener", "Text to speech engine started successfully.");
-//                            tts.setLanguage(Locale.US);
-//                        } else {
-//                            Log.d("OnInitListener", "Error starting the text to speech engine.");
-//                        }
-//                    }
-//                };
-//        tts = new TextToSpeech(this.getApplicationContext(), listener);
    }
 
     /**
@@ -221,7 +207,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
                 new CameraSource.Builder(getApplicationContext(), textRecognizer)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setRequestedPreviewSize(1280, 1024)
-                .setRequestedFps(2.0f)
+                .setRequestedFps(60)
                 .setFlashMode(useFlash ? Camera.Parameters.FLASH_MODE_TORCH : null)
                 .setFocusMode(autoFocus ? Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE : null)
                 .build();
