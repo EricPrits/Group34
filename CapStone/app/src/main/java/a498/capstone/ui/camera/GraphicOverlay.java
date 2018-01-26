@@ -23,6 +23,7 @@ import android.view.View;
 //import com.google.android.gms.vision.CameraSource;
 import a498.capstone.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -163,17 +164,19 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View {
      * These coordinates will be offset by the relative screen position of this view.
      * @return First graphic containing the point, or null if no text is detected.
      */
-    public T getGraphicAtLocation(float rawX, float rawY) {
+    public ArrayList<T> getGraphicAtLocation(float rawX, float rawY) {
         synchronized (mLock) {
             // Get the position of this View so the raw location can be offset relative to the view.
             int[] location = new int[2];
             this.getLocationOnScreen(location);
+            ArrayList<T> arrayGraphics = new ArrayList<T>();
             for (T graphic : mGraphics) {
-                if (graphic.contains(rawX - location[0], rawY - location[1])) {
-                    return graphic;
-                }
+//                if (graphic.contains(rawX - location[0], rawY - location[1])) {
+//                    return graphic;
+//                }
+                arrayGraphics.add(graphic);
             }
-            return null;
+            return arrayGraphics;
         }
     }
 

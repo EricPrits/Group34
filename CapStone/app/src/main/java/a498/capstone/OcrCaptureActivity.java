@@ -46,6 +46,8 @@ import com.google.android.gms.common.api.CommonStatusCodes;
 import a498.capstone.ui.camera.CameraSource;
 import a498.capstone.ui.camera.CameraSourcePreview;
 import a498.capstone.ui.camera.GraphicOverlay;
+
+import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
@@ -333,22 +335,24 @@ public final class OcrCaptureActivity extends AppCompatActivity {
      * @return true if the tap was on a TextBlock
      */
     private boolean onTap(float rawX, float rawY) {
-        OcrGraphic graphic = mGraphicOverlay.getGraphicAtLocation(rawX, rawY);
+        ArrayList<OcrGraphic> graphicArray= mGraphicOverlay.getGraphicAtLocation(rawX, rawY);
+        //OcrGraphic graphic = mGraphicOverlay.getGraphicAtLocation(rawX, rawY);
         TextBlock text = null;
-        if (graphic != null) {
-            text = graphic.getTextBlock();
-            if (text != null && text.getValue() != null) {
-                Log.d(TAG, "text data is being spoken! " + text.getValue());
-                array.add(text.getValue());
-                // Speak the string.
-                //tts.speak(text.getValue(), TextToSpeech.QUEUE_ADD, null, "DEFAULT");
+        for(OcrGraphic graphic: graphicArray) {
+            if (graphic != null) {
+                text = graphic.getTextBlock();
+                if (text != null && text.getValue() != null) {
+                    Log.d(TAG, "text data is being spoken! " + text.getValue());
+                    //receiptProcessor.
+                    array.add(text.getValue());
+                    // Speak the string.
+                    //tts.speak(text.getValue(), TextToSpeech.QUEUE_ADD, null, "DEFAULT");
+                } else {
+                    Log.d(TAG, "text data is null");
+                }
+            } else {
+                Log.d(TAG, "no text detected");
             }
-            else {
-                Log.d(TAG, "text data is null");
-            }
-        }
-        else {
-            Log.d(TAG,"no text detected");
         }
         return text != null;
     }
