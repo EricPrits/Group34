@@ -65,16 +65,18 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
-    /*
+
     @Override
-    ** Called when the user touches the button * /
+    /** Called when the user touches the button ** /
+     *
+     */
     public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     String[] foods = {"Bananas", "Eggs", "Steak", "Cereal"};
     ArrayAdapter<String> adapter = new ArrayAdapter<String>(getListView().getContext(), android.R.layout.simple_list_item_1, foods);
     getListView().setAdapter(adapter);
     }
-    */
+
 
 
     public boolean onCreateOptionsMenu(Menu menu) {
