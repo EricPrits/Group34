@@ -36,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
 
-    Receipt_dbAdapter receipt_db;
+    public Receipt_dbAdapter receipt_db;
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    ArrayList<SummaryData> sumList;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -54,12 +55,24 @@ public class MainActivity extends AppCompatActivity {
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
         receipt_db = new Receipt_dbAdapter(this);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        Cursor summaryData = receipt_db.getSummaryData();
+
+        sumList = new ArrayList<SummaryData>();
+        while(summaryData.moveToNext()){
+            int id = summaryData.getInt(summaryData.getColumnIndex("_id"));
+            String name = summaryData.getString(summaryData.getColumnIndex("Name"));
+            String date = summaryData.getString(summaryData.getColumnIndex("Date"));
+            date = date.substring(0, 10);
+            SummaryData data = new SummaryData(id, name, date);
+            sumList.add(data);
+        }
+
 
         // Set up Tab Views, and add icons
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -110,7 +123,10 @@ public class MainActivity extends AppCompatActivity {
                     HomeTab home = new HomeTab();
                     return home;
                 case 1:
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("summary",sumList) ;
                     ReceiptTab receipt = new ReceiptTab();
+                    receipt.setArguments(bundle);
                     return receipt;
                 case 2:
                     CaptureTab capture = new CaptureTab();

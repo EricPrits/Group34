@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Message;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.sql.SQLInput;
 
@@ -14,8 +16,8 @@ import java.sql.SQLInput;
  * Created by patrickgibson on 2018-01-13.
  */
 
-public class Receipt_dbAdapter {
-    receipt_dbHelper dbHelper;
+public class Receipt_dbAdapter{
+    static receipt_dbHelper dbHelper;
 
 
 
@@ -31,7 +33,7 @@ public class Receipt_dbAdapter {
      *
      * @param name Name user gives for scanned receipt
      */
-    public void addReceipt(String name, ArrayList<String[]> list){
+    public static void addReceipt(String name, ArrayList<String[]> list){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         // Add row in summary table for new receipt
@@ -53,7 +55,7 @@ public class Receipt_dbAdapter {
         for(int i = 0; i < list.size() - 1; i++){
             contentValues.clear();
             String foodType = list.get(i)[0];
-            String quantity = list.get(i)[1];
+            int quantity = Integer.parseInt(list.get(i)[1]);
             contentValues.put("FoodType", foodType);
             contentValues.put("Quantity", quantity);
             db.insert(newName,  null, contentValues);
@@ -61,7 +63,7 @@ public class Receipt_dbAdapter {
         db.close();
     }
 
-    public void deleteReceipt(String name){
+    public static void deleteReceipt(String name){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String[] columns = {"_id"};
         Cursor cursor = db.query(dbHelper.TABLE_NAME, columns, "Name = "+name, null, null, null, null);
@@ -70,12 +72,13 @@ public class Receipt_dbAdapter {
         String tableName = "receipt"+id;
         db.delete(dbHelper.TABLE_NAME, "where _id = "+id, null);
         db.rawQuery("DROP TABLE "+tableName, null);
+        db.close();
     }
 
     public Cursor getSummaryData(){
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor cursor = db.query(receipt_dbHelper.TABLE_NAME, null, null, null, null, null, null, null );
-        db.close();
+        //db.close();
         return cursor;
     }
 
@@ -88,7 +91,7 @@ public class Receipt_dbAdapter {
         return cursor;
     }
 
-    public SQLiteDatabase getDatabase(){
+    public static SQLiteDatabase getDatabase(){
         return dbHelper.getWritableDatabase();
     }
 
@@ -102,7 +105,7 @@ public class Receipt_dbAdapter {
         private static final String DATE = "Date";
         private static final int VERSION = 1;
         private static final String CREATE_TABLE = "CREATE TABLE "+TABLE_NAME+ " (_id INTEGER PRIMARY KEY , " +NAME+ " VARCHAR(255), "
-                +DATE+" DATETIME DEFAULT CURRENT_TIMESTAMP);";
+                +DATE+" DATE DEFAULT CURRENT_TIMESTAMP);";
         private Context context;
 
 
@@ -113,12 +116,75 @@ public class Receipt_dbAdapter {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-                db.execSQL(CREATE_TABLE);
+            db.execSQL(CREATE_TABLE);
+            ArrayList<String[]> list = new ArrayList<String[]>();
+            list.add(foodList("apple juice", "1"));
+            list.add(foodList("ham", "1"));
+            list.add(foodList("white bread", "1"));
+            addReceipt("foods", list, db);
+            list.clear();
+            list.add(foodList("chips", "2"));
+            list.add(foodList("ham", "1"));
+            list.add(foodList("lamp chop", "1"));
+            list.add(foodList("carrots", "1"));
+            list.add(foodList("avocado", "1"));
+            list.add(foodList("pepper", "1"));
+            list.add(foodList("eggs", "1"));
+            list.add(foodList("crm chs", "1"));
+            list.add(foodList("tortillas", "1"));
+            addReceipt("lots of foods", list, db);
+            list.clear();
+            list.add(foodList("pork chop", "1"));
+            list.add(foodList("chicken breast", "1"));
+            list.add(foodList("yellow onion", "1"));
+            list.add(foodList("banana", "1"));
+            list.add(foodList("garlic", "1"));
+            list.add(foodList("spring green mix", "1"));
+            list.add(foodList("SA pepper hummus", "1"));
+            list.add(foodList("pillsbury pizza", "2"));
+            list.add(foodList("danone active yog", "1"));
+            list.add(foodList("milk", "1"));
+            list.add(foodList("blackdi chse bl", "1"));
+            list.add(foodList("bread", "2"));
+            list.add(foodList("tortillas", "2"));
+            addReceipt("patricks food", list, db);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldV, int newV){
 
+        }
+
+        public String[] foodList(String foodType, String quantity){
+            String[] list = {foodType, quantity};
+            return list;
+        }
+
+        public static void addReceipt(String name, ArrayList<String[]> list, SQLiteDatabase db){
+            // Add row in summary table for new receipt
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(receipt_dbHelper.NAME, name);
+            db.insert(receipt_dbHelper.TABLE_NAME, null , contentValues);
+
+            //Query to find _id of newly inserted row
+            Cursor cursor = db.rawQuery("Select _id from ReceiptNames order by _id desc limit 1", null);
+            cursor.moveToFirst();
+            String id = Integer.toString(cursor.getInt(cursor.getColumnIndex("_id")));
+
+            // Create new table for new receipt details
+            String newName = "receipt"+id;  //New table name has id of row in summary table which corresponds to this receipt
+            String create = "CREATE TABLE " +newName+ " (_id INTEGER PRIMARY KEY, FoodType VARCHAR(255), Quantity INTEGER)";
+            db.execSQL(create);
+
+            // Add each food item, from the receipt, to the new table
+            for(int i = 0; i < list.size() - 1; i++){
+                contentValues.clear();
+                String foodType = list.get(i)[0];
+                int quantity = Integer.parseInt(list.get(i)[1]);
+                contentValues.put("FoodType", foodType);
+                contentValues.put("Quantity", quantity);
+                db.insert(newName,  null, contentValues);
+            }
         }
     }
 
