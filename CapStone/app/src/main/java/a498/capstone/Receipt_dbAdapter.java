@@ -13,6 +13,10 @@ import java.sql.SQLInput;
 
 
 /**
+ * This class is used to communicate with the database used to house the receipts scanned. Upon creation, the
+ * database is created with a summary table, which describes the names of all receipts scanned. Each receipt scanned
+ * will also have its own table to store the details of the receipt.
+ *
  * Created by patrickgibson on 2018-01-13.
  */
 
@@ -32,6 +36,8 @@ public class Receipt_dbAdapter{
      * and a new table is created corresponding to the details of the receipt.
      *
      * @param name Name user gives for scanned receipt
+     * @param list ArrayList of String arrays, containing the details of the receipts. Each String[] contains
+     *             the type of food, and quantity.
      */
     public static void addReceipt(String name, ArrayList<String[]> list){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -63,6 +69,12 @@ public class Receipt_dbAdapter{
         db.close();
     }
 
+    /**
+     * This method deletes the row in the summary table pertaining to the specified receipt.
+     * The table with the receipt details is also dropped.
+     *
+     * @param name Name of the receipt to be removed.
+     */
     public static void deleteReceipt(String name){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String[] columns = {"_id"};
@@ -75,6 +87,10 @@ public class Receipt_dbAdapter{
         db.close();
     }
 
+    /**
+     * This method returns all of the receipts in the summary table.
+     * @return Cursor object to get data.
+     */
     public Cursor getSummaryData(){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor cursor = db.query(receipt_dbHelper.TABLE_NAME, null, null, null, null, null, null, null );
@@ -82,6 +98,12 @@ public class Receipt_dbAdapter{
         return cursor;
     }
 
+    /**
+     * This method returns the details, name of food + quantity, of a specified receipt.
+     *
+     * @param _id Primary key ID for receipt in summary table (can change to name of receipt if easier)
+     * @return Cursor object to get data.
+     */
     public Cursor getDetailedData(int _id){
         SQLiteDatabase db  = dbHelper.getReadableDatabase();
         String name = "receipt"+Integer.toString(_id);
@@ -115,6 +137,10 @@ public class Receipt_dbAdapter{
         }
 
         @Override
+        /**
+         * This method is called when the app is first installed/opened. It is responsible
+         * for the creation of any initial tables.
+         */
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(CREATE_TABLE);
             ArrayList<String[]> list = new ArrayList<String[]>();
@@ -160,6 +186,10 @@ public class Receipt_dbAdapter{
             return list;
         }
 
+
+        /**
+         * Method used to temporarily add data to database for testing etc.
+         */
         public static void addReceipt(String name, ArrayList<String[]> list, SQLiteDatabase db){
             // Add row in summary table for new receipt
             ContentValues contentValues = new ContentValues();

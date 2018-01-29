@@ -6,6 +6,9 @@ import android.os.Parcelable;
 import java.io.Serializable;
 
 /**
+ * This object is used to contain the information about receipt from the summary table. The class must
+ * implement the Parceable interface in order to be passed as a bundle to a fragment.
+ *
  * Created by patrickgibson on 2018-01-27.
  */
 
