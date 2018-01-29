@@ -23,6 +23,7 @@ import android.database.Cursor;
 import android.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,8 +37,10 @@ public class MainActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
 
-    Receipt_dbAdapter receipt_db;
+    public Receipt_dbAdapter receipt_db;
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    ArrayList<SummaryData> sumList;
+    HashMap<Integer, DetailedData> detailedList;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -55,11 +58,35 @@ public class MainActivity extends AppCompatActivity {
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        receipt_db = new Receipt_dbAdapter(this);
-
         // Set up the ViewPager with the sections adapter.
         mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        // Set up the Receipt_dbAdapter object to communicate with the database
+        receipt_db = new Receipt_dbAdapter(this);
+        Cursor summaryData = receipt_db.getSummaryData();
+        //Populate ArrayList with summary data from database
+        sumList = new ArrayList<SummaryData>();
+        while(summaryData.moveToNext()){
+            int id = summaryData.getInt(summaryData.getColumnIndex("_id"));
+            String name = summaryData.getString(summaryData.getColumnIndex("Name"));
+            String date = summaryData.getString(summaryData.getColumnIndex("Date"));
+            date = date.substring(0, 10);  //Keep only date part of timestamp (cut off time part)
+            SummaryData data = new SummaryData(id, name, date);
+            sumList.add(data);
+            Cursor dataCursor = receipt_db.getDetailedData(id);
+            ArrayList<DetailedData> detailedReceipt = new ArrayList<DetailedData>();
+            while(dataCursor.moveToNext()){
+                String foodType = dataCursor.getString(dataCursor.getColumnIndex("foodType"));
+                int quantity = dataCursor.getShort(dataCursor.getColumnIndex("quantity"));
+                DetailedData detData = new DetailedData(foodType, quantity);
+                detailedReceipt.add(detData);
+            }
+
+        }
+
+
+
 
         // Set up Tab Views, and add icons
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -115,7 +142,11 @@ public class MainActivity extends AppCompatActivity {
                     HomeTab home = new HomeTab();
                     return home;
                 case 1:
+                    // Create a bundle to pass data to receiptTab fragment
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("summary",sumList) ;
                     ReceiptTab receipt = new ReceiptTab();
+                    receipt.setArguments(bundle);
                     return receipt;
                 case 2:
                     CaptureTab capture = new CaptureTab();
