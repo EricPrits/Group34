@@ -22,12 +22,16 @@ import a498.capstone.ui.camera.GraphicOverlay;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.text.TextBlock;
 
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 /**
  * A very simple Processor which gets detected TextBlocks and adds them to the overlay
  * as OcrGraphics.
  */
 public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
+    ArrayList<String> receipt = new ArrayList<String>();
     private GraphicOverlay<OcrGraphic> mGraphicOverlay;
 
     OcrDetectorProcessor(GraphicOverlay<OcrGraphic> ocrGraphicOverlay) {
@@ -43,10 +47,16 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
      */
     @Override
     public void receiveDetections(Detector.Detections<TextBlock> detections) {
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         mGraphicOverlay.clear();
         SparseArray<TextBlock> items = detections.getDetectedItems();
         for (int i = 0; i < items.size(); ++i) {
             TextBlock item = items.valueAt(i);
+//            receipt.set(i, item.getValue());
             if (item != null && item.getValue() != null) {
                 Log.d("OcrDetectorProcessor", "Text detected! " + item.getValue());
             }
@@ -61,5 +71,9 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
     @Override
     public void release() {
         mGraphicOverlay.clear();
+    }
+
+    public ArrayList<String> getReceipt(){
+        return receipt;
     }
 }

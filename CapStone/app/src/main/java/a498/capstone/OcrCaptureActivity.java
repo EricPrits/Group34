@@ -46,6 +46,8 @@ import com.google.android.gms.common.api.CommonStatusCodes;
 import a498.capstone.ui.camera.CameraSource;
 import a498.capstone.ui.camera.CameraSourcePreview;
 import a498.capstone.ui.camera.GraphicOverlay;
+
+import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
@@ -116,20 +118,6 @@ public final class OcrCaptureActivity extends AppCompatActivity {
                 Snackbar.LENGTH_LONG)
                 .show();
 
-        // Set up the Text To Speech engine.
-//        TextToSpeech.OnInitListener listener =
-//                new TextToSpeech.OnInitListener() {
-//                    @Override
-//                    public void onInit(final int status) {
-//                        if (status == TextToSpeech.SUCCESS) {
-//                            Log.d("OnInitListener", "Text to speech engine started successfully.");
-//                            tts.setLanguage(Locale.US);
-//                        } else {
-//                            Log.d("OnInitListener", "Error starting the text to speech engine.");
-//                        }
-//                    }
-//                };
-//        tts = new TextToSpeech(this.getApplicationContext(), listener);
    }
 
     /**
@@ -221,7 +209,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
                 new CameraSource.Builder(getApplicationContext(), textRecognizer)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setRequestedPreviewSize(1280, 1024)
-                .setRequestedFps(2.0f)
+                .setRequestedFps(60)
                 .setFlashMode(useFlash ? Camera.Parameters.FLASH_MODE_TORCH : null)
                 .setFocusMode(autoFocus ? Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE : null)
                 .build();
@@ -347,22 +335,24 @@ public final class OcrCaptureActivity extends AppCompatActivity {
      * @return true if the tap was on a TextBlock
      */
     private boolean onTap(float rawX, float rawY) {
-        OcrGraphic graphic = mGraphicOverlay.getGraphicAtLocation(rawX, rawY);
+        ArrayList<OcrGraphic> graphicArray= mGraphicOverlay.getGraphicAtLocation(rawX, rawY);
+        //OcrGraphic graphic = mGraphicOverlay.getGraphicAtLocation(rawX, rawY);
         TextBlock text = null;
-        if (graphic != null) {
-            text = graphic.getTextBlock();
-            if (text != null && text.getValue() != null) {
-                Log.d(TAG, "text data is being spoken! " + text.getValue());
-                array.add(text.getValue());
-                // Speak the string.
-                //tts.speak(text.getValue(), TextToSpeech.QUEUE_ADD, null, "DEFAULT");
+        for(OcrGraphic graphic: graphicArray) {
+            if (graphic != null) {
+                text = graphic.getTextBlock();
+                if (text != null && text.getValue() != null) {
+                    Log.d(TAG, "text data is being spoken! " + text.getValue());
+                    //receiptProcessor.
+                    array.add(text.getValue());
+                    // Speak the string.
+                    //tts.speak(text.getValue(), TextToSpeech.QUEUE_ADD, null, "DEFAULT");
+                } else {
+                    Log.d(TAG, "text data is null");
+                }
+            } else {
+                Log.d(TAG, "no text detected");
             }
-            else {
-                Log.d(TAG, "text data is null");
-            }
-        }
-        else {
-            Log.d(TAG,"no text detected");
         }
         return text != null;
     }
