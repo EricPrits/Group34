@@ -1,5 +1,6 @@
 package a498.capstone;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -20,6 +22,7 @@ import java.util.List;
 
 public class ReceiptTab extends Fragment {
     ArrayList<SummaryData> sumList;
+    HashMap<Integer, ArrayList<DetailedData>> detailedList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,16 +30,18 @@ public class ReceiptTab extends Fragment {
         View rootView = inflater.inflate(R.layout.receipts_tab, container, false);
 
         ListView listView = rootView.findViewById(R.id.receiptListView);
-        //ArrayAdapter<SummaryData> myAdapter = new ArrayAdapter<SummaryData>(getContext(), android.R.layout.simple_list_item_1, sumList);
-
         SummaryAdapter myAdapter = new SummaryAdapter(getContext(), sumList);
-
         listView.setAdapter(myAdapter);
 
+        // When item is list is clicked, start new Activity displaying details
         listView.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                SummaryData rowData = (SummaryData) parent.getItemAtPosition(position);
+                ArrayList<DetailedData> detData = detailedList.get(id);
+                Intent i = new Intent(view.getContext(), ReceiptDetailsList.class);
+                i.putParcelableArrayListExtra("data", detailedList.get(rowData.getID()));
+                startActivity(i);
             }
         });
         return rootView;
@@ -47,6 +52,8 @@ public class ReceiptTab extends Fragment {
         super.onCreate(savedInstance);
         if(getArguments() != null){
             sumList = getArguments().getParcelableArrayList("summary");
+            detailedList = (HashMap<Integer, ArrayList<DetailedData>>) getArguments().getSerializable("detailed");
+
         }
     }
 

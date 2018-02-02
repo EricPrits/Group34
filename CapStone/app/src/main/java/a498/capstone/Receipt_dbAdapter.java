@@ -109,7 +109,7 @@ public class Receipt_dbAdapter{
         String name = "receipt"+Integer.toString(_id);
         String[] columns = {"FoodType", "Quantity"};
         Cursor cursor = db.query(name,columns, null, null, null ,null ,null );
-        db.close();
+        //db.close();
         return cursor;
     }
 

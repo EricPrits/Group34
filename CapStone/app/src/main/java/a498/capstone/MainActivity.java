@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public Receipt_dbAdapter receipt_db;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     ArrayList<SummaryData> sumList;
-    HashMap<Integer, DetailedData> detailedList;
+    HashMap<Integer, ArrayList<DetailedData>> detailedList;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor summaryData = receipt_db.getSummaryData();
         //Populate ArrayList with summary data from database
         sumList = new ArrayList<SummaryData>();
+        detailedList = new HashMap<Integer, ArrayList<DetailedData>>();
         while(summaryData.moveToNext()){
             int id = summaryData.getInt(summaryData.getColumnIndex("_id"));
             String name = summaryData.getString(summaryData.getColumnIndex("Name"));
@@ -77,11 +78,12 @@ public class MainActivity extends AppCompatActivity {
             Cursor dataCursor = receipt_db.getDetailedData(id);
             ArrayList<DetailedData> detailedReceipt = new ArrayList<DetailedData>();
             while(dataCursor.moveToNext()){
-                String foodType = dataCursor.getString(dataCursor.getColumnIndex("foodType"));
-                int quantity = dataCursor.getShort(dataCursor.getColumnIndex("quantity"));
+                String foodType = dataCursor.getString(dataCursor.getColumnIndex("FoodType"));
+                int quantity = dataCursor.getShort(dataCursor.getColumnIndex("Quantity"));
                 DetailedData detData = new DetailedData(foodType, quantity);
                 detailedReceipt.add(detData);
             }
+            detailedList.put(id, detailedReceipt);
 
         }
 
@@ -145,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
                     // Create a bundle to pass data to receiptTab fragment
                     Bundle bundle = new Bundle();
                     bundle.putParcelableArrayList("summary",sumList) ;
+                    bundle.putSerializable("detailed", detailedList);
                     ReceiptTab receipt = new ReceiptTab();
                     receipt.setArguments(bundle);
                     return receipt;
