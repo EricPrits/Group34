@@ -1,6 +1,11 @@
 package a498.capstone;
 
 import android.app.ListActivity;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 /**
  * Created by patrickgibson on 2018-01-28.
@@ -9,5 +14,18 @@ import android.app.ListActivity;
 public class ReceiptDetailsList extends ListActivity {
 
 
+    protected void onCreate(Bundle savedInstance) {
+        super.onCreate(savedInstance);
+        ListView listView = getListView();
 
+        ArrayList<DetailedData> data = new ArrayList<DetailedData>();
+        if (getIntent().getExtras() != null) {
+            Bundle bundle = getIntent().getExtras();
+            data = bundle.getParcelableArrayList("data");
+        }
+
+        DetailedAdapter detAdapter = new DetailedAdapter(this, data);
+        listView.setAdapter(detAdapter);
+
+    }
 }

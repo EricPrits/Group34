@@ -1,8 +1,6 @@
 package a498.capstone;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.constraint.ConstraintLayout;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.support.design.widget.TabLayout.Tab;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public Receipt_dbAdapter receipt_db;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     ArrayList<SummaryData> sumList;
-    HashMap<Integer, DetailedData> detailedList;
+    HashMap<Integer, ArrayList<DetailedData>> detailedList;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor summaryData = receipt_db.getSummaryData();
         //Populate ArrayList with summary data from database
         sumList = new ArrayList<SummaryData>();
+        detailedList = new HashMap<Integer, ArrayList<DetailedData>>();
         while(summaryData.moveToNext()){
             int id = summaryData.getInt(summaryData.getColumnIndex("_id"));
             String name = summaryData.getString(summaryData.getColumnIndex("Name"));
@@ -77,11 +78,12 @@ public class MainActivity extends AppCompatActivity {
             Cursor dataCursor = receipt_db.getDetailedData(id);
             ArrayList<DetailedData> detailedReceipt = new ArrayList<DetailedData>();
             while(dataCursor.moveToNext()){
-                String foodType = dataCursor.getString(dataCursor.getColumnIndex("foodType"));
-                int quantity = dataCursor.getShort(dataCursor.getColumnIndex("quantity"));
+                String foodType = dataCursor.getString(dataCursor.getColumnIndex("FoodType"));
+                int quantity = dataCursor.getShort(dataCursor.getColumnIndex("Quantity"));
                 DetailedData detData = new DetailedData(foodType, quantity);
                 detailedReceipt.add(detData);
             }
+            detailedList.put(id, detailedReceipt);
 
         }
 
@@ -119,6 +121,11 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    public void openCamera(View view){
+        Intent intent = new Intent(view.getContext(), OcrCaptureActivity.class);
+        //intent.putExtra("array_list", array);
+        startActivity(intent);
+    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -140,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
                     // Create a bundle to pass data to receiptTab fragment
                     Bundle bundle = new Bundle();
                     bundle.putParcelableArrayList("summary",sumList) ;
+                    bundle.putSerializable("detailed", detailedList);
                     ReceiptTab receipt = new ReceiptTab();
                     receipt.setArguments(bundle);
                     return receipt;
