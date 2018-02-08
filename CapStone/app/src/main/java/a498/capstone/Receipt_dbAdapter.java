@@ -87,6 +87,15 @@ public class Receipt_dbAdapter{
         db.close();
     }
 
+    public static void editReceipt(String receiptName, int item, String foodName, int quantity){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("FoodType", foodName);
+        cv.put("Quantity", quantity);
+        db.update(receiptName, cv, "_id = "+item, null );
+    }
+
+
     /**
      * This method returns all of the receipts in the summary table.
      * @return Cursor object to get data.
