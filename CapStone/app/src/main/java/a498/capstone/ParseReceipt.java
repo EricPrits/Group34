@@ -32,12 +32,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.content.Intent;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
+import java.text.SimpleDateFormat;
 
 public class ParseReceipt extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parse_receipt);
+        EditText editDate = (EditText) findViewById(R.id.setDateEdit);
+        EditText editName = (EditText) findViewById(R.id.setNameEdit);
+        Date c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MMM-dd");
+        String formattedDate = df.format(c);
+        editDate.setHint(formattedDate);
+        editName.setHint("Metro "+formattedDate);
         //When rerunning from phone fails due to intent not being cleared
         if(getIntent().getExtras()!=null) {
             Bundle bundle = getIntent().getExtras();
@@ -54,9 +67,11 @@ public class ParseReceipt extends AppCompatActivity {
         final Button button = (Button) findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                
                 finish();
             }
         });
+
 
     }
     protected String[] parseReceipt(String line){

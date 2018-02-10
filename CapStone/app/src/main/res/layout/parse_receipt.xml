@@ -12,18 +12,19 @@
         android:inputType="textMultiLine" />
 
     <EditText
+        android:id="@+id/setNameEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:hint="Metro"
+        android:inputType="textPersonName" />
 
     <EditText
+        android:id="@+id/setDateEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Date" />
+        android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/button2"
