@@ -39,11 +39,18 @@ import java.text.SimpleDateFormat;
 
 public class ParseReceipt extends AppCompatActivity {
 
+    public Receipt_dbAdapter receipt_db;
+    EditText editDate;
+    EditText editName;
+    ArrayList<String[]> parsed;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parse_receipt);
-        EditText editDate = (EditText) findViewById(R.id.setDateEdit);
-        EditText editName = (EditText) findViewById(R.id.setNameEdit);
+
+        parsed = new ArrayList<String[]>();
+        editDate = (EditText) findViewById(R.id.setDateEdit);
+        editName = (EditText) findViewById(R.id.setNameEdit);
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
 
@@ -55,9 +62,6 @@ public class ParseReceipt extends AppCompatActivity {
         if(getIntent().getExtras()!=null) {
             Bundle bundle = getIntent().getExtras();
             ArrayList<String> array = (ArrayList<String>) bundle.getStringArrayList("array_list");
-
-            ArrayList<String[]> parsed = new ArrayList<String[]>();
-            array.add("Test");
             EditText editText = (EditText) findViewById(R.id.editText);
             for (int i = 0; i < array.size(); i++) {
                 editText.setText(editText.getText() + array.get(i) + "\n");
@@ -67,7 +71,7 @@ public class ParseReceipt extends AppCompatActivity {
         final Button button = (Button) findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                
+                receipt_db.addReceipt(editName.getText().toString(),parsed);
                 finish();
             }
         });
