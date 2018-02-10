@@ -48,7 +48,7 @@ public class SummaryAdapter extends ArrayAdapter<SummaryData> {
      * Method is called when name or date has been changed
      * @param data
      */
-    public void refereshData(ArrayList<SummaryData> data){
+    public void refreshData(ArrayList<SummaryData> data){
         this.list.clear();
         this.list.addAll(data);
         notifyDataSetChanged();

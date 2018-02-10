@@ -60,7 +60,7 @@ public class Receipt_dbAdapter{
         db.execSQL(create);
 
         // Add each food item, from the receipt, to the new table
-        for(int i = 0; i < list.size() - 1; i++){
+        for(int i = 0; i < list.size(); i++){
             contentValues.clear();
             String foodType = list.get(i)[0];
             int quantity = Integer.parseInt(list.get(i)[1]);
@@ -79,16 +79,11 @@ public class Receipt_dbAdapter{
      * This method deletes the row in the summary table pertaining to the specified receipt.
      * The table with the receipt details is also dropped.
      *
-     * @param name Name of the receipt to be removed.
      */
-    public void deleteReceipt(String name){
+    public void deleteReceipt(int id){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String[] columns = {"_id"};
-        Cursor cursor = db.query(dbHelper.TABLE_NAME, columns, "Name = "+name, null, null, null, null);
-        cursor.moveToFirst();
-        int id = (cursor.getInt(cursor.getColumnIndex("_id")));
         String tableName = "receipt"+id;
-        db.delete(dbHelper.TABLE_NAME, "where _id = "+id, null);
+        db.delete(dbHelper.TABLE_NAME, "_id = "+id, null);
         db.rawQuery("DROP TABLE "+tableName, null);
         db.close();
     }
@@ -130,7 +125,7 @@ public class Receipt_dbAdapter{
     public Cursor getDetailedData(int _id){
         SQLiteDatabase db  = dbHelper.getReadableDatabase();
         String name = "receipt"+Integer.toString(_id);
-        String[] columns = {"FoodType", "Quantity"};
+        String[] columns = {"_id", "FoodType", "Quantity"};
         Cursor cursor = db.query(name,columns, null, null, null ,null ,null );
         //db.close();
         return cursor;
