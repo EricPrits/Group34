@@ -21,7 +21,7 @@ import java.sql.SQLInput;
  */
 
 public class Receipt_dbAdapter{
-    static receipt_dbHelper dbHelper;
+    receipt_dbHelper dbHelper;
 
 
 
@@ -39,12 +39,14 @@ public class Receipt_dbAdapter{
      * @param list ArrayList of String arrays, containing the details of the receipts. Each String[] contains
      *             the type of food, and quantity.
      */
-    public static void addReceipt(String name, ArrayList<String[]> list){
+    public void addReceipt(String name, String date, ArrayList<String[]> list){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         // Add row in summary table for new receipt
         ContentValues contentValues = new ContentValues();
         contentValues.put(receipt_dbHelper.NAME, name);
+        if(date != null)
+            contentValues.put(receipt_dbHelper.DATE, date);
         db.insert(receipt_dbHelper.TABLE_NAME, null , contentValues);
 
         //Query to find _id of newly inserted row
@@ -69,23 +71,44 @@ public class Receipt_dbAdapter{
         db.close();
     }
 
+    public void addReceipt(String name, ArrayList<String[]> list){
+        addReceipt(name, null, list);
+    }
+
     /**
      * This method deletes the row in the summary table pertaining to the specified receipt.
      * The table with the receipt details is also dropped.
      *
      * @param name Name of the receipt to be removed.
      */
-    public static void deleteReceipt(String name){
+    public void deleteReceipt(String name){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String[] columns = {"_id"};
         Cursor cursor = db.query(dbHelper.TABLE_NAME, columns, "Name = "+name, null, null, null, null);
         cursor.moveToFirst();
-        String id = Integer.toString(cursor.getInt(cursor.getColumnIndex("_id")));
+        int id = (cursor.getInt(cursor.getColumnIndex("_id")));
         String tableName = "receipt"+id;
         db.delete(dbHelper.TABLE_NAME, "where _id = "+id, null);
         db.rawQuery("DROP TABLE "+tableName, null);
         db.close();
     }
+
+    public void editDetailReceipt(String receiptName, int item, String foodName, int quantity){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("FoodType", foodName);
+        cv.put("Quantity", quantity);
+        db.update(receiptName, cv, "_id = "+item, null );
+    }
+
+    public void editSummaryReceipt(int id, String name, String date){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("Name", name);
+        cv.put("Date", date);
+        db.update("ReceiptNames", cv,"_id ="+id, null);
+    }
+
 
     /**
      * This method returns all of the receipts in the summary table.
@@ -113,7 +136,7 @@ public class Receipt_dbAdapter{
         return cursor;
     }
 
-    public static SQLiteDatabase getDatabase(){
+    public SQLiteDatabase getDatabase(){
         return dbHelper.getWritableDatabase();
     }
 
@@ -121,7 +144,6 @@ public class Receipt_dbAdapter{
     //Extending SQLiteOpenHelper, to allow for database creation and use
     static class receipt_dbHelper extends SQLiteOpenHelper {
 
-        private static final String DATABASE_NAME = "ReceiptDatabase";
         private static final String TABLE_NAME = "ReceiptNames";
         private static final String NAME = "Name";
         private static final String DATE = "Date";
@@ -132,7 +154,7 @@ public class Receipt_dbAdapter{
 
 
         public receipt_dbHelper(Context context){
-            super(context, null, null, VERSION);
+            super(context, "Receipts", null, VERSION);
             this.context = context;
         }
 
@@ -181,7 +203,7 @@ public class Receipt_dbAdapter{
 
         }
 
-        public String[] foodList(String foodType, String quantity){
+        public static String[] foodList(String foodType, String quantity){
             String[] list = {foodType, quantity};
             return list;
         }
@@ -207,7 +229,7 @@ public class Receipt_dbAdapter{
             db.execSQL(create);
 
             // Add each food item, from the receipt, to the new table
-            for(int i = 0; i < list.size() - 1; i++){
+            for(int i = 0; i < list.size(); i++){
                 contentValues.clear();
                 String foodType = list.get(i)[0];
                 int quantity = Integer.parseInt(list.get(i)[1]);

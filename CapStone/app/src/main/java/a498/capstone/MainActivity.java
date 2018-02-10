@@ -62,34 +62,6 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        // Set up the Receipt_dbAdapter object to communicate with the database
-        receipt_db = new Receipt_dbAdapter(this);
-        Cursor summaryData = receipt_db.getSummaryData();
-        //Populate ArrayList with summary data from database
-        sumList = new ArrayList<SummaryData>();
-        detailedList = new HashMap<Integer, ArrayList<DetailedData>>();
-        while(summaryData.moveToNext()){
-            int id = summaryData.getInt(summaryData.getColumnIndex("_id"));
-            String name = summaryData.getString(summaryData.getColumnIndex("Name"));
-            String date = summaryData.getString(summaryData.getColumnIndex("Date"));
-            date = date.substring(0, 10);  //Keep only date part of timestamp (cut off time part)
-            SummaryData data = new SummaryData(id, name, date);
-            sumList.add(data);
-            Cursor dataCursor = receipt_db.getDetailedData(id);
-            ArrayList<DetailedData> detailedReceipt = new ArrayList<DetailedData>();
-            while(dataCursor.moveToNext()){
-                String foodType = dataCursor.getString(dataCursor.getColumnIndex("FoodType"));
-                int quantity = dataCursor.getShort(dataCursor.getColumnIndex("Quantity"));
-                DetailedData detData = new DetailedData(foodType, quantity);
-                detailedReceipt.add(detData);
-            }
-            detailedList.put(id, detailedReceipt);
-
-        }
-
-
-
-
         // Set up Tab Views, and add icons
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -144,12 +116,7 @@ public class MainActivity extends AppCompatActivity {
                     HomeTab home = new HomeTab();
                     return home;
                 case 1:
-                    // Create a bundle to pass data to receiptTab fragment
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelableArrayList("summary",sumList) ;
-                    bundle.putSerializable("detailed", detailedList);
-                    ReceiptTab receipt = new ReceiptTab();
-                    receipt.setArguments(bundle);
+                      ReceiptTab receipt = new ReceiptTab();
                     return receipt;
                 case 2:
                     CaptureTab capture = new CaptureTab();

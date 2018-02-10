@@ -21,13 +21,15 @@ import java.util.ArrayList;
  */
 
 public class SummaryAdapter extends ArrayAdapter<SummaryData> {
+    ArrayList<SummaryData> list;
     public SummaryAdapter(Context context, ArrayList<SummaryData> users) {
         super(context, 0, users);
+        list = users;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
-        SummaryData data = getItem(position);
+        SummaryData data = list.get(position);
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_layout, parent, false);
@@ -40,6 +42,16 @@ public class SummaryAdapter extends ArrayAdapter<SummaryData> {
         dateView.setText(data.getDate());
 
         return convertView;
+    }
+
+    /**
+     * Method is called when name or date has been changed
+     * @param data
+     */
+    public void refereshData(ArrayList<SummaryData> data){
+        this.list.clear();
+        this.list.addAll(data);
+        notifyDataSetChanged();
     }
 
 }
