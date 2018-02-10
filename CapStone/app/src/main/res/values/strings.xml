@@ -18,4 +18,6 @@
     <string name="ocr_failure">No text captured</string>
     <string name="ocr_error">"Error reading text: %1$s"</string>
     <string name="name_entry_message">Enter Receipt Name</string>
+    <string name="summarydialog_update">Update Receipt</string>
+    <string name="summarydialog_delete">Delete</string>
 </resources>

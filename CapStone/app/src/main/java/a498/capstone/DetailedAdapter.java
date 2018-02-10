@@ -17,14 +17,16 @@ import java.util.ArrayList;
  */
 
 public class DetailedAdapter extends ArrayAdapter<DetailedData> {
+    ArrayList<DetailedData> list;
 
     public DetailedAdapter(Context context, ArrayList<DetailedData> users) {
         super(context, 0, users);
+        list = users;
     }
 
     public View getView(int position, View convertView, ViewGroup parent){
 
-        DetailedData data = getItem(position);
+        DetailedData data = list.get(position);
 
         if(convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.detailed_textviews, parent, false);

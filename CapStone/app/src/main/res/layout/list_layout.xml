@@ -8,13 +8,13 @@
         android:id="@+id/name_entry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="28dip"
+        android:textSize="28sp"
         android:paddingBottom="5dp" />
 
     <TextView
         android:id="@+id/date_entry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dip" />
+        android:textSize="20sp" />
 
 </LinearLayout>
