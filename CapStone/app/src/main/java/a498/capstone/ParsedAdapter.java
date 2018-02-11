@@ -1,6 +1,7 @@
 package a498.capstone;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,7 +28,6 @@ public class ParsedAdapter extends BaseAdapter{
     Context thisContext;
     EditText itemView;
     EditText quantityView;
-    int flag;
 
     public ParsedAdapter(Context context, ArrayList<String[]> receipt) {
         list=receipt;
@@ -40,8 +40,8 @@ public class ParsedAdapter extends BaseAdapter{
 
     public String[] getItem(int position) {
         String[] result = new String[2];
-        result[0]=itemView.getText().toString();
-        result[1]=quantityView.getText().toString();
+        result[0]= list.get(position)[0];
+        result[1]=list.get(position)[1];
         return result;
     }
 
@@ -51,54 +51,63 @@ public class ParsedAdapter extends BaseAdapter{
 
     public View getView(final int position, View convertView, ViewGroup parent){
 
+        final ViewHolder holder;
         if (convertView == null) {
+
+            holder = new ViewHolder();
             convertView = LayoutInflater.from(thisContext).inflate(R.layout.parse_list_layout, parent, false);
+            holder.itemText = (EditText) convertView.findViewById(R.id.item_entry);
+            holder.quantityText = (EditText) convertView.findViewById(R.id.quantity_entry);
+
+            convertView.setTag(holder);
+
+        } else {
+
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        itemView = convertView.findViewById(R.id.item_entry);
-        quantityView = convertView.findViewById(R.id.quantity_entry);
+        itemView = (EditText) convertView.findViewById(R.id.item_entry);
+        quantityView = (EditText) convertView.findViewById(R.id.quantity_entry);
+
+        holder.ref = position;
 
         itemView.setText(list.get(position)[0]);
         quantityView.setText(list.get(position)[1]);
 
+        holder.itemText.setText(list.get(position)[0]);
+        holder.quantityText.setText(list.get(position)[1]);
+        holder.itemText.addTextChangedListener(new TextWatcher() {
 
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                // TODO Auto-generated method stub
 
+            }
 
-       TextWatcher textWatcherItem = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                          int arg3) {
+                // TODO Auto-generated method stub
 
-           public void afterTextChanged(Editable s) {
-               String[] result = new String[2];
-               result[0]=s.toString();
-               result[1]=list.get(position)[1];
-               list.set(position,result);
-           }
+            }
 
-           public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-           }
-
-           public void onTextChanged(CharSequence s, int start, int before,int count) {
-
-           }
-       };
-        TextWatcher textWatcherQuantity = new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
                 String[] result = new String[2];
-                result[0]=list.get(position)[0];
-                result[1]=s.toString();
-                list.set(position,result);
+                result[0]=arg0.toString();
+                result[1]=list.get(holder.ref)[1];
+                list.set(holder.ref,result);
             }
+        });
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before,int count) {
-
-            }
-        };
-       itemView.addTextChangedListener(textWatcherItem);
-       quantityView.addTextChangedListener(textWatcherQuantity);
         return convertView;
+    }
+
+    private class ViewHolder {
+        EditText itemText;
+        EditText quantityText;
+        int ref;
     }
 }
 

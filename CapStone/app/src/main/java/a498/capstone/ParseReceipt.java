@@ -46,6 +46,7 @@ public class ParseReceipt extends AppCompatActivity {
     EditText editName;
     ArrayList<String[]> parsed;
     ArrayList<String> array;
+    ArrayList<String> arraySeperated;
     ParsedAdapter myAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,16 +68,25 @@ public class ParseReceipt extends AppCompatActivity {
         System.out.println("Current time => " + c);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = df.format(c);
-        editDate.setHint(formattedDate);
+        editDate.setText(formattedDate);
         editName.setHint("Metro "+formattedDate);
 
         //When rerunning from phone fails due to intent not being cleared
         if(getIntent().getExtras()!=null) {
             Bundle bundle = getIntent().getExtras();
             array = (ArrayList<String>) bundle.getStringArrayList("array_list");
+            arraySeperated = new ArrayList<String>();
             for (int i = 0; i < array.size(); i++) {
-                parsed.add(parseReceipt(array.get(i)));
-
+                String lines[] = array.get(i).split("\\r?\\n");
+                for(int j=0; j<lines.length;j++){
+                    arraySeperated.add(lines[j]);
+                }
+            }
+            String[] temp = new String[2];
+            for (int i = 0; i < arraySeperated.size(); i++) {
+                temp =parseReceipt(arraySeperated.get(i));
+                if(!temp[0].equals("Skip"))
+                    parsed.add(temp);
             }
         }
         myAdapter = new ParsedAdapter(context, parsed);
@@ -111,7 +121,7 @@ public class ParseReceipt extends AppCompatActivity {
                     itemName = line.substring(i+4);
                 }
             }
-            if ((line.charAt(i))=='$' || (line.charAt(i))=='@') {
+            if ((line.charAt(i))=='$' || (line.charAt(i))=='@'|| line.contains("kg")) {
                 //skipline
                 itemName="Skip";
             }
