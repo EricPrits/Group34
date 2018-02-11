@@ -4,12 +4,11 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editText"
+    <ListView
+        android:id="@+id/parsedListView"
         android:layout_width="match_parent"
-        android:layout_height="389dp"
-        android:ems="10"
-        android:inputType="textMultiLine" />
+        android:layout_height="399dp"
+        android:entries="@android:drawable/edit_text" />
 
     <EditText
         android:id="@+id/setNameEdit"

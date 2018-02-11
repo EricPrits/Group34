@@ -4,6 +4,7 @@ package a498.capstone;
  * Created by Eric on 2018-01-14.
  */
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.content.Intent;
 import java.util.ArrayList;
@@ -43,35 +45,50 @@ public class ParseReceipt extends AppCompatActivity {
     EditText editDate;
     EditText editName;
     ArrayList<String[]> parsed;
+    ArrayList<String> array;
+    ParsedAdapter myAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parse_receipt);
+        Context context = getApplicationContext();
 
+        final ListView listView = findViewById(R.id.parsedListView);
+        listView.setItemsCanFocus(true);
+
+
+        receipt_db= new Receipt_dbAdapter(context);
         parsed = new ArrayList<String[]>();
+
+        //Set field hints to dates
         editDate = (EditText) findViewById(R.id.setDateEdit);
         editName = (EditText) findViewById(R.id.setNameEdit);
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
-
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MMM-dd");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = df.format(c);
         editDate.setHint(formattedDate);
         editName.setHint("Metro "+formattedDate);
+
         //When rerunning from phone fails due to intent not being cleared
         if(getIntent().getExtras()!=null) {
             Bundle bundle = getIntent().getExtras();
-            ArrayList<String> array = (ArrayList<String>) bundle.getStringArrayList("array_list");
-            EditText editText = (EditText) findViewById(R.id.editText);
+            array = (ArrayList<String>) bundle.getStringArrayList("array_list");
             for (int i = 0; i < array.size(); i++) {
-                editText.setText(editText.getText() + array.get(i) + "\n");
                 parsed.add(parseReceipt(array.get(i)));
+
             }
         }
+        myAdapter = new ParsedAdapter(context, parsed);
+        listView.setAdapter(myAdapter);
         final Button button = (Button) findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                receipt_db.addReceipt(editName.getText().toString(),parsed);
+                ArrayList<String[]> result = new ArrayList<String[]>();
+                for (int i = 0; i < parsed.size(); i++) {
+                    result.add(myAdapter.getItem(i));
+                }
+                receipt_db.addReceipt(editName.getText().toString(), editDate.getText().toString(), result);
                 finish();
             }
         });
@@ -89,8 +106,8 @@ public class ParseReceipt extends AppCompatActivity {
                     quantity = (int)line.charAt(i+1);
                     itemName = line.substring(i+3);
                 }
-                else{
-                    quantity = (int)(line.charAt(i+1) + line.charAt(i+2));
+                else if(line.charAt(i+3)==')'){
+                    quantity = ((int)line.charAt(i+1) + (int)line.charAt(i+2));
                     itemName = line.substring(i+4);
                 }
             }
@@ -104,8 +121,8 @@ public class ParseReceipt extends AppCompatActivity {
             itemName=line;
         }
 
-        result[0]= String.valueOf((char) quantity);
-        result[1]= itemName;
+        result[1]= String.valueOf(quantity);
+        result[0]= itemName;
         return result;
     }
 }
