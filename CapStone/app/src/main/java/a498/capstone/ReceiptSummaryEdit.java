@@ -19,18 +19,15 @@ import android.widget.TextView;
 public class ReceiptSummaryEdit extends DialogFragment {
 
     public interface ReceiptSummaryEditListener{
-        public void onDialogPositiveClick(DialogFragment dialog);
-        public void onDialogNegativeClick(DialogFragment dialog);
+        void onDialogPositiveClick(DialogFragment dialog);
+        void onDialogNegativeClick(DialogFragment dialog);
     }
 
     public ReceiptSummaryEdit(){
-
     }
 
     ReceiptSummaryEditListener mListener;
 
-
-    //public static ;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstance){
@@ -60,6 +57,8 @@ public class ReceiptSummaryEdit extends DialogFragment {
                 .setNegativeButton(R.string.summarydialog_delete, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("id", _id);
                         mListener.onDialogNegativeClick(ReceiptSummaryEdit.this);
                     }
                 });

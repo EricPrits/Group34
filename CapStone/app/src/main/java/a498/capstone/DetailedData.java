@@ -10,10 +10,12 @@ import android.os.Parcelable;
 public class DetailedData implements Parcelable {
     private String foodType;
     private int quantity;
+    private int id;
 
-    public DetailedData(String foodType, int quantity){
+    public DetailedData(String foodType, int quantity, int id){
         this.foodType = foodType;
         this.quantity = quantity;
+        this.id = id;
     }
 
     public int describeContents(){
@@ -23,6 +25,7 @@ public class DetailedData implements Parcelable {
     public void writeToParcel(Parcel out, int flags){
         out.writeString(foodType);
         out.writeInt(quantity);
+        out.writeInt(id);
     }
 
     public static final Parcelable.Creator<DetailedData> CREATOR
@@ -39,6 +42,7 @@ public class DetailedData implements Parcelable {
     private DetailedData(Parcel in) {
         foodType = in.readString();
         quantity = in.readInt();
+        id = in.readInt();
     }
 
     public String getFoodType(){
@@ -48,4 +52,8 @@ public class DetailedData implements Parcelable {
     public int getQuantity(){
         return quantity;
     }
+
+    public int getId(){ return id;}
 }
+
+

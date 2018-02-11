@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by patrickgibson on 2017-11-28.
@@ -44,9 +42,8 @@ public class ReceiptTab extends Fragment implements ReceiptSummaryEdit.ReceiptSu
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SummaryData rowData = (SummaryData) parent.getItemAtPosition(position);
-                ArrayList<DetailedData> detData = detailedList.get(id);
                 Intent i = new Intent(view.getContext(), ReceiptDetailsList.class);
-                i.putParcelableArrayListExtra("data", detailedList.get(rowData.getID()));
+                i.putExtra("id", rowData.getID());
                 startActivity(i);
             }
         });
@@ -82,7 +79,6 @@ public class ReceiptTab extends Fragment implements ReceiptSummaryEdit.ReceiptSu
      * This method is called when Update button is pressed when editing name or date of receipt
      * @param dialog
      */
-    @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         Bundle bundle = dialog.getArguments();
         int id = bundle.getInt("id");
@@ -90,13 +86,15 @@ public class ReceiptTab extends Fragment implements ReceiptSummaryEdit.ReceiptSu
         String date = bundle.getString("Date");
         receipt_db.editSummaryReceipt(id, name, date);
         setData();
-        myAdapter.refereshData(sumList);
+        myAdapter.refreshData(sumList);
 
     }
 
-    @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-
+        int id = dialog.getArguments().getInt("id");
+        receipt_db.deleteReceipt(id);
+        setData();
+        myAdapter.refreshData(sumList);
     }
 
     /**
@@ -115,16 +113,6 @@ public class ReceiptTab extends Fragment implements ReceiptSummaryEdit.ReceiptSu
                 date = date.substring(0, 10);  //Keep only date part of timestamp (cut off time part)
             SummaryData data = new SummaryData(id, name, date);
             sumList.add(data);
-            Cursor dataCursor = receipt_db.getDetailedData(id);
-            ArrayList<DetailedData> detailedReceipt = new ArrayList<DetailedData>();
-            while(dataCursor.moveToNext()){
-                String foodType = dataCursor.getString(dataCursor.getColumnIndex("FoodType"));
-                int quantity = dataCursor.getShort(dataCursor.getColumnIndex("Quantity"));
-                DetailedData detData = new DetailedData(foodType, quantity);
-                detailedReceipt.add(detData);
-            }
-            detailedList.put(id, detailedReceipt);
-
         }
     }
 }
