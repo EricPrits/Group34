@@ -21,13 +21,38 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="392dp"
-        android:layout_height="462dp"
+        android:layout_width="312dp"
+        android:layout_height="373dp"
+        android:layout_marginStart="24dp"
         android:adjustViewBounds="true"
         android:cropToPadding="true"
         android:scaleType="centerCrop"
         android:src="@drawable/logo"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="24dp" />
+        tools:layout_editor_absoluteY="0dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:cropToPadding="false"
+        android:onClick="generateList"
+        android:src="@drawable/basket"
+        android:adjustViewBounds="true"
+        android:maxWidth="210dp"
+        android:maxHeight="210dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.911" />
+
+    <ListView
+        android:layout_width="341dp"
+        android:layout_height="493dp"
+        android:visibility="visible"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="8dp" />
 
 </android.support.constraint.ConstraintLayout>

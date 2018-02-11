@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +16,9 @@ import android.support.design.widget.TabLayout.Tab;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
+
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.database.Cursor;
@@ -37,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
 
+
+
+
+    int homeScreenSwitch = 0;
+
+
     public Receipt_dbAdapter receipt_db;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     ArrayList<SummaryData> sumList;
@@ -51,6 +59,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
+
+        ImageButton basketImageButton = (ImageButton) findViewById(R.id.imageButton4);
+//
+//    basketImageButton.setOnClickListener(new View.OnClickListener() {
+//
+//
+//        @Override
+//                                          public void onClick(View v) {
+//                                                  Toast.makeText(TravelBite.this, "test", Toast.LENGTH_LONG).show();
+////                                                   //show list
+//                                               }
+//                                          });
 
        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
@@ -168,4 +192,8 @@ public class MainActivity extends AppCompatActivity {
             return 4;
         }
     }
+
+
+
+
 }

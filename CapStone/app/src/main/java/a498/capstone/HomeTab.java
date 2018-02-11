@@ -1,5 +1,6 @@
 package a498.capstone;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,4 +20,12 @@ public class HomeTab extends Fragment {
         View rootView = inflater.inflate(R.layout.home_tab, container, false);
         return rootView;
     }
+    public void generateList(View view){
+       //Remove current view viewToUse.setImageResource(0);
+
+    }
+
+
+
+
 }
