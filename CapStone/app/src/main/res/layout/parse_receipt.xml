@@ -4,26 +4,26 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editText"
+    <ListView
+        android:id="@+id/parsedListView"
         android:layout_width="match_parent"
-        android:layout_height="389dp"
-        android:ems="10"
-        android:inputType="textMultiLine" />
+        android:layout_height="399dp"
+        android:entries="@android:drawable/edit_text" />
 
     <EditText
+        android:id="@+id/setNameEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:hint="Metro"
+        android:inputType="textPersonName" />
 
     <EditText
+        android:id="@+id/setDateEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Date" />
+        android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/button2"
