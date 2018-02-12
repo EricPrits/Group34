@@ -132,10 +132,35 @@ public class Receipt_dbAdapter{
     public Cursor getDetailedData(int _id){
         SQLiteDatabase db  = dbHelper.getReadableDatabase();
         String name = "receipt"+Integer.toString(_id);
-        String[] columns = {"_id", "FoodType", "Quantity", "ExpiryDate"};
+        String[] columns = {"_id", "FoodType", "Quantity", "ExpiryDate", "PurchaseDate"};
         Cursor cursor = db.query(name,columns, null, null, null ,null ,null );
         //db.close();
         return cursor;
+    }
+
+    public ArrayList<ArrayList<DetailedData>> getAllReceipts(){
+        ArrayList<ArrayList<DetailedData>> list = new ArrayList<>();
+        Cursor cursor = getSummaryData();
+        int count = 0;
+        while(cursor.moveToNext()){
+            count++;
+        }
+
+        for(int i = 1; i <= count; i++){
+            Cursor detData = getDetailedData(i);
+            ArrayList<DetailedData> array = new ArrayList<>();
+            while(detData.moveToNext()){
+                String foodType = detData.getString(detData.getColumnIndex("FoodType"));
+                int quantity = detData.getInt(detData.getColumnIndex("Quantity"));
+                int id = detData.getInt(detData.getColumnIndex("_id"));
+                String expiryDate = detData.getString(detData.getColumnIndex("ExpiryDate"));
+                String purchaseDate = detData.getString(detData.getColumnIndex("PurchaseDate"));
+                DetailedData data = new DetailedData(foodType, quantity, id, expiryDate, purchaseDate);
+                array.add(data);
+            }
+            list.add(array);
+        }
+        return list;
     }
 
     public SQLiteDatabase getDatabase(){
@@ -174,9 +199,9 @@ public class Receipt_dbAdapter{
             addReceipt("foods", list, db);
             list.clear();
             list.add(foodList("chips", "2"));
-            list.add(foodList("ham", "1"));
+            list.add(foodList("Ham", "1"));
             list.add(foodList("lamp chop", "1"));
-            list.add(foodList("carrots", "1"));
+            list.add(foodList("Carrot", "1"));
             list.add(foodList("avocado", "1"));
             list.add(foodList("pepper", "1"));
             list.add(foodList("eggs", "1"));
@@ -184,10 +209,10 @@ public class Receipt_dbAdapter{
             list.add(foodList("tortillas", "1"));
             addReceipt("lots of foods", list, db);
             list.clear();
-            list.add(foodList("pork chop", "1"));
+            list.add(foodList("Pork", "1"));
             list.add(foodList("chicken breast", "1"));
             list.add(foodList("yellow onion", "1"));
-            list.add(foodList("banana", "1"));
+            list.add(foodList("Banana", "1"));
             list.add(foodList("garlic", "1"));
             list.add(foodList("spring green mix", "1"));
             list.add(foodList("SA pepper hummus", "1"));
@@ -195,7 +220,7 @@ public class Receipt_dbAdapter{
             list.add(foodList("danone active yog", "1"));
             list.add(foodList("milk", "1"));
             list.add(foodList("blackdi chse bl", "1"));
-            list.add(foodList("bread", "2"));
+            list.add(foodList("Whole-grain bread", "2"));
             list.add(foodList("tortillas", "2"));
             addReceipt("patricks food", list, db);
         }
@@ -231,7 +256,7 @@ public class Receipt_dbAdapter{
 
             // Create new table for new receipt details
             String newName = "receipt"+id;  //New table name has id of row in summary table which corresponds to this receipt
-            String create = "CREATE TABLE " +newName+ " (_id INTEGER PRIMARY KEY, FoodType VARCHAR(255), Quantity INTEGER, ExpiryDate DATE)";
+            String create = "CREATE TABLE " +newName+ " (_id INTEGER PRIMARY KEY, FoodType VARCHAR(255), Quantity INTEGER, ExpiryDate DATE, PurchaseDate DATE)";
             db.execSQL(create);
             // Add each food item, from the receipt, to the new table
             for(int i = 0; i < list.size(); i++){
@@ -264,6 +289,7 @@ public class Receipt_dbAdapter{
                     newDate = sdf.format(c1.getTime());
                 }
                 contentValues.put("ExpiryDate", newDate);
+                contentValues.put("PurchaseDate", dateBought);
                 db.insert(newName, null, contentValues);
             }
         }

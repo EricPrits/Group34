@@ -68,7 +68,8 @@ public class ReceiptDetailsList extends ListActivity implements ReceiptDetailedE
             int quantity = dataCursor.getShort(dataCursor.getColumnIndex("Quantity"));
             int detID = dataCursor.getInt(dataCursor.getColumnIndex("_id"));
             String date = dataCursor.getString(dataCursor.getColumnIndex("ExpiryDate"));
-            DetailedData detData = new DetailedData(foodType, quantity, detID);
+            String purchaseDate = dataCursor.getString(dataCursor.getColumnIndex("PurchaseDate"));
+            DetailedData detData = new DetailedData(foodType, quantity, detID, date, purchaseDate);
             data.add(detData);
         }
     }

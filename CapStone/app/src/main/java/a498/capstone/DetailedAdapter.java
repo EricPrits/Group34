@@ -27,12 +27,13 @@ public class DetailedAdapter extends ArrayAdapter<DetailedData> {
 
     public View getView(int position, View convertView, ViewGroup parent){
 
-        DetailedData data = list.get(position);
 
         if(convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.detailed_textviews, parent, false);
 
+
         ViewHolder holder = new ViewHolder();
+        DetailedData data = list.get(position);
         holder.tv1 = convertView.findViewById(R.id.textView1);
         holder.tv2 = convertView.findViewById(R.id.textView2);
         holder.tv1.setText(data.getFoodType());
