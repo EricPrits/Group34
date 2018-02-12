@@ -95,6 +95,11 @@ public class Receipt_dbAdapter{
         db.close();
     }
 
+    public void deleteFood(int id, int table){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete("receipt"+table, "_id = "+id, null);
+    }
+
     public void editDetailReceipt(String receiptName, int item, String foodName, int quantity){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();

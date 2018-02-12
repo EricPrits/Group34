@@ -81,16 +81,5 @@ public class RelatedFoods {
         return match;
     }
 
-    public int getCategory(String food){
-        FoodTastes currentFood = new FoodTastes();
-        try {
-            currentFood = foods.get(map.get(food));
-            int category = currentFood.getCategory();
-            return category;
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-
 
 }
