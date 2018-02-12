@@ -52,7 +52,6 @@
         android:layout_width="341dp"
         android:layout_height="493dp"
         android:visibility="visible"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="8dp" />
+        tools:layout_editor_absoluteX="27dp"
 
 </android.support.constraint.ConstraintLayout>
