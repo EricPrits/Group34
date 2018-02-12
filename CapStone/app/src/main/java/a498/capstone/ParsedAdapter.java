@@ -44,6 +44,22 @@ public class ParsedAdapter extends BaseAdapter{
         result[1]=list.get(position)[1];
         return result;
     }
+    public void deleteItem(String name) {
+        for(int i=0; i<list.size();i++)
+        {
+            if(list.get(i)[0]==name) {
+                list.remove(i);
+                break;
+            }
+        }
+
+    }
+    public void addBlank(){
+        String[] temp = new String[2];
+        temp[0]= "";
+        temp[1]="1";
+        list.add(0,temp);
+    }
 
     public long getItemId(int position) {
         return position;
@@ -103,7 +119,6 @@ public class ParsedAdapter extends BaseAdapter{
 
         return convertView;
     }
-
     private class ViewHolder {
         EditText itemText;
         EditText quantityText;
