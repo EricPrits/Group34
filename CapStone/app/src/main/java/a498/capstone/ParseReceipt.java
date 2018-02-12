@@ -9,11 +9,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.design.widget.FloatingActionButton;
@@ -35,6 +38,7 @@ import android.view.textservice.SpellCheckerSession;
 import android.view.textservice.SuggestionsInfo;
 import android.view.textservice.TextInfo;
 import android.view.textservice.TextServicesManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -47,7 +51,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-public class ParseReceipt extends AppCompatActivity implements SpellCheckerSession.SpellCheckerSessionListener {
+public class ParseReceipt extends AppCompatActivity implements SpellCheckerSession.SpellCheckerSessionListener, ParseDeleteDialog.ParseDeleteDialogListener{
 
     public Receipt_dbAdapter receipt_db;
     EditText editDate;
@@ -64,7 +68,7 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parse_receipt);
-        Context context = getApplicationContext();
+        final Context context = getApplicationContext();
 
         final ListView listView = findViewById(R.id.parsedListView);
         listView.setItemsCanFocus(true);
@@ -120,6 +124,8 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
         }
         myAdapter = new ParsedAdapter(context, parsedCorrected);
         listView.setAdapter(myAdapter);
+
+        //Listeners
         final Button button = (Button) findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -138,7 +144,50 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
             }
         });
 
+        listView.setOnItemLongClickListener(new ListView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id){
+                String[] row= (String[])parent.getItemAtPosition(position);
+                Bundle bundle = new Bundle();
+                bundle.putString("Name", row[0]);
+                bundle.putString("Quantity", row[1]);
 
+                ParseDeleteDialog dialog = new ParseDeleteDialog();
+                dialog.setArguments(bundle);
+                dialog.setListener(ParseReceipt.this);
+                String tag = "ParseDeleteDialog";
+                dialog.show(getSupportFragmentManager(), tag);
+                return true;
+            }
+        });
+
+
+    }
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.parse_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the home_tab/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.add_item) {
+            myAdapter.addBlank();
+            myAdapter.notifyDataSetChanged();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        String name = dialog.getArguments().getString("Name");
+        myAdapter.deleteItem(name);
+        myAdapter.notifyDataSetChanged();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
