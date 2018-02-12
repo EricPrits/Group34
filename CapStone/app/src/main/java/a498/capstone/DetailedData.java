@@ -11,11 +11,15 @@ public class DetailedData implements Parcelable {
     private String foodType;
     private int quantity;
     private int id;
+    private String expiryDate;
+    private String purchaseDate;
 
-    public DetailedData(String foodType, int quantity, int id){
+    public DetailedData(String foodType, int quantity, int id, String expiryDate, String purchaseDate){
         this.foodType = foodType;
         this.quantity = quantity;
         this.id = id;
+        this.expiryDate = expiryDate;
+        this.purchaseDate = purchaseDate;
     }
 
     public int describeContents(){
@@ -26,6 +30,7 @@ public class DetailedData implements Parcelable {
         out.writeString(foodType);
         out.writeInt(quantity);
         out.writeInt(id);
+        out.writeString(expiryDate);
     }
 
     public static final Parcelable.Creator<DetailedData> CREATOR
@@ -43,6 +48,7 @@ public class DetailedData implements Parcelable {
         foodType = in.readString();
         quantity = in.readInt();
         id = in.readInt();
+        expiryDate = in.readString();
     }
 
     public String getFoodType(){
@@ -54,6 +60,13 @@ public class DetailedData implements Parcelable {
     }
 
     public int getId(){ return id;}
+
+    public String getExpiryDate(){ return expiryDate; }
+
+    public String getPurchaseDate() {
+        return purchaseDate;
+    }
+
 }
 
 
