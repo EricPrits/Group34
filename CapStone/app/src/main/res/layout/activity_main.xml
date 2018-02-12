@@ -22,21 +22,21 @@
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TabItem
-                android:id="@+id/tabItem"
+                android:id="@+id/homeTab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <android.support.design.widget.TabItem
-                android:id="@+id/tabItem2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <android.support.design.widget.TabItem
-                android:id="@+id/tabItem3"
+                android:id="@+id/receiptTab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <android.support.design.widget.TabItem
-                android:id="@+id/tabItem4"
+                android:id="@+id/captureTab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/settingsTab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

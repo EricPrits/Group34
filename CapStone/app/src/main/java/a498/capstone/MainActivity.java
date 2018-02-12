@@ -1,25 +1,44 @@
 package a498.capstone;
 
+<<<<<<< HEAD
 import android.app.ListActivity;
+=======
+import android.content.Intent;
+>>>>>>> master
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+<<<<<<< HEAD
 import android.app.ListActivity;
 
+=======
+>>>>>>> master
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.support.design.widget.TabLayout.Tab;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.database.Cursor;
+import android.widget.SimpleCursorAdapter;
+import android.view.LayoutInflater;
+import java.util.ArrayList;
+import java.util.HashMap;
 
+<<<<<<< HEAD
 import android.widget.ListAdapter;
 import android.widget.TextView;
+=======
+>>>>>>> master
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -31,6 +50,7 @@ public class MainActivity extends AppCompatActivity  {
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
+
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
@@ -50,21 +70,20 @@ public class MainActivity extends AppCompatActivity  {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        // Set up Tab Views, and add icons
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         tabLayout.getTabAt(0).setIcon(R.drawable.homeicon);
         tabLayout.getTabAt(1).setIcon(R.drawable.list);
         tabLayout.getTabAt(2).setIcon(R.drawable.camera);
         tabLayout.getTabAt(3).setIcon(R.drawable.settings);
-
-
     }
 
+<<<<<<< HEAD
 
     @Override
     /** Called when the user touches the button ** /
@@ -79,6 +98,9 @@ public class MainActivity extends AppCompatActivity  {
 
 
 
+=======
+        @Override
+>>>>>>> master
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -99,6 +121,11 @@ public class MainActivity extends AppCompatActivity  {
 
         return super.onOptionsItemSelected(item);
     }
+    public void openCamera(View view){
+        Intent intent = new Intent(view.getContext(), OcrCaptureActivity.class);
+        //intent.putExtra("array_list", array);
+        startActivity(intent);
+    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -117,7 +144,7 @@ public class MainActivity extends AppCompatActivity  {
                     HomeTab home = new HomeTab();
                     return home;
                 case 1:
-                    ReceiptTab receipt = new ReceiptTab();
+                      ReceiptTab receipt = new ReceiptTab();
                     return receipt;
                 case 2:
                     CaptureTab capture = new CaptureTab();
@@ -132,7 +159,7 @@ public class MainActivity extends AppCompatActivity  {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // Show 4 total pages.
             return 4;
         }
     }
