@@ -62,7 +62,7 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
     ArrayList<String> arraySeperated;
     ParsedAdapter myAdapter;
     ParseSpellChecker autoCorrect;
-    String sb;
+    String corrected;
     boolean correct;
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,14 +109,15 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
 //        autoCorrect.createSession();
         correct = true;
         String[] temp = new String[2];
+        corrected="";
         parsedCorrected = new ArrayList<String[]>();
         for (int i=0; i <parsed.size();i++){
             fetchSuggestionsFor(parsed.get(i)[0]);
-            if(!correct) {
-                temp[0] = sb;
+           if(corrected!="") {
+                temp[0] = corrected;
                 temp[1] = parsed.get(i)[1];
                 parsedCorrected.add(temp);
-                correct = true;
+                //correct = true;
             }
             else
                 parsedCorrected.add(parsed.get(i));
@@ -198,7 +199,7 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
         SpellCheckerSession session =
                 tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, true);
 
-        session.getSentenceSuggestions(new TextInfo[]{ new TextInfo(input) }, 1);
+        session.getSentenceSuggestions(new TextInfo[]{ new TextInfo(input) }, 5);
     }
 
     public void onGetSuggestions(SuggestionsInfo[] results) {
@@ -207,20 +208,22 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
     @Override
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] results) {
-        sb=(results[0].getSuggestionsInfoAt(0).getSuggestionAt(0));
-//        for(SentenceSuggestionsInfo result:results){
-//            int n = result.getSuggestionsCount();
-//            for(int i=0; i < n; i++){
-//                int m = result.getSuggestionsInfoAt(i).getSuggestionsCount();
-////                if((result.getSuggestionsInfoAt(i).getSuggestionsAttributes() & SuggestionsInfo.RESULT_ATTR_LOOKS_LIKE_TYPO) != SuggestionsInfo.RESULT_ATTR_LOOKS_LIKE_TYPO ) {
-////                    continue;
-////                }
-//                for(int k=0; k < m; k++) {
-//                    correct=false;
-//
-//                }
-//            }
-//        }
+        //sb=(results[0].getSuggestionsInfoAt(0).getSuggestionAt(0));
+        corrected="";
+        final StringBuffer sb = new StringBuffer("");
+        for(SentenceSuggestionsInfo result:results){
+            int n = result.getSuggestionsCount();
+            for(int i=0; i < n; i++){
+                int m = result.getSuggestionsInfoAt(i).getSuggestionsCount();
+
+                for(int k=0; k < m; k++) {
+                    sb.append(result.getSuggestionsInfoAt(i).getSuggestionAt(k))
+                            .append("\n");
+                }
+                sb.append("\n");
+            }
+        }
+        corrected = sb.toString();
     }
 
     protected String[] parseReceipt(String line){
