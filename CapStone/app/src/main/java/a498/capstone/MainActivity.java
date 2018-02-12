@@ -37,10 +37,7 @@ public class MainActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
 
-    public Receipt_dbAdapter receipt_db;
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    ArrayList<SummaryData> sumList;
-    HashMap<Integer, ArrayList<DetailedData>> detailedList;
 
     /**
      * The {@link ViewPager} that will host the section contents.

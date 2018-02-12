@@ -55,3 +55,5 @@ public class SummaryAdapter extends ArrayAdapter<SummaryData> {
     }
 
 }
+
+

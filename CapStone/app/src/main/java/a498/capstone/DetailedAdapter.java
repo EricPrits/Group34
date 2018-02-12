@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class DetailedAdapter extends ArrayAdapter<DetailedData> {
     ArrayList<DetailedData> list;
 
+
     public DetailedAdapter(Context context, ArrayList<DetailedData> users) {
         super(context, 0, users);
         list = users;
