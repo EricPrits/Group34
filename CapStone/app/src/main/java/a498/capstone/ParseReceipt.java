@@ -5,7 +5,9 @@ package a498.capstone;
  */
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +30,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.textservice.SentenceSuggestionsInfo;
+import android.view.textservice.SpellCheckerSession;
+import android.view.textservice.SuggestionsInfo;
+import android.view.textservice.TextInfo;
+import android.view.textservice.TextServicesManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -38,17 +45,22 @@ import java.util.Calendar;
 import java.util.Date;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
-public class ParseReceipt extends AppCompatActivity {
+public class ParseReceipt extends AppCompatActivity implements SpellCheckerSession.SpellCheckerSessionListener {
 
     public Receipt_dbAdapter receipt_db;
     EditText editDate;
     EditText editName;
     ArrayList<String[]> parsed;
+    ArrayList<String[]> parsedCorrected;
     ArrayList<String> array;
     ArrayList<String> arraySeperated;
     ParsedAdapter myAdapter;
-
+    ParseSpellChecker autoCorrect;
+    String sb;
+    boolean correct;
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parse_receipt);
@@ -89,7 +101,24 @@ public class ParseReceipt extends AppCompatActivity {
                     parsed.add(temp);
             }
         }
-        myAdapter = new ParsedAdapter(context, parsed);
+//        autoCorrect = new ParseSpellChecker();
+//        autoCorrect.createSession();
+        correct = true;
+        String[] temp = new String[2];
+        parsedCorrected = new ArrayList<String[]>();
+        for (int i=0; i <parsed.size();i++){
+            fetchSuggestionsFor(parsed.get(i)[0]);
+            if(!correct) {
+                temp[0] = sb;
+                temp[1] = parsed.get(i)[1];
+                parsedCorrected.add(temp);
+                correct = true;
+            }
+            else
+                parsedCorrected.add(parsed.get(i));
+
+        }
+        myAdapter = new ParsedAdapter(context, parsedCorrected);
         listView.setAdapter(myAdapter);
         final Button button = (Button) findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
@@ -102,9 +131,49 @@ public class ParseReceipt extends AppCompatActivity {
                 finish();
             }
         });
+        final Button buttonCancel = (Button) findViewById(R.id.cancel_button);
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    private void fetchSuggestionsFor(String input){
+        TextServicesManager tsm =
+                (TextServicesManager) getSystemService(TEXT_SERVICES_MANAGER_SERVICE);
+
+        SpellCheckerSession session =
+                tsm.newSpellCheckerSession(null, Locale.ENGLISH, this, true);
+
+        session.getSentenceSuggestions(new TextInfo[]{ new TextInfo(input) }, 1);
+    }
+
+    public void onGetSuggestions(SuggestionsInfo[] results) {
+    }
+
+    @Override
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] results) {
+        sb=(results[0].getSuggestionsInfoAt(0).getSuggestionAt(0));
+//        for(SentenceSuggestionsInfo result:results){
+//            int n = result.getSuggestionsCount();
+//            for(int i=0; i < n; i++){
+//                int m = result.getSuggestionsInfoAt(i).getSuggestionsCount();
+////                if((result.getSuggestionsInfoAt(i).getSuggestionsAttributes() & SuggestionsInfo.RESULT_ATTR_LOOKS_LIKE_TYPO) != SuggestionsInfo.RESULT_ATTR_LOOKS_LIKE_TYPO ) {
+////                    continue;
+////                }
+//                for(int k=0; k < m; k++) {
+//                    correct=false;
+//
+//                }
+//            }
+//        }
+    }
+
     protected String[] parseReceipt(String line){
         String[] result = new String[2];
         int quantity= 0;
@@ -121,7 +190,7 @@ public class ParseReceipt extends AppCompatActivity {
                     itemName = line.substring(i+4);
                 }
             }
-            if ((line.charAt(i))=='$' || (line.charAt(i))=='@'|| line.contains("kg")) {
+            if ((line.charAt(i))=='$' || (line.charAt(i))=='@'|| line.contains("kg") || line.length()<=2 || line.contains(".99") || line.contains("%")||line.contains("PLASTIC")||line.contains("%")) {
                 //skipline
                 itemName="Skip";
             }
