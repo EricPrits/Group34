@@ -14,6 +14,7 @@ class FoodTastes {
     private double bitterness;
     private double umami;
     private double fat;
+    private int expiryDate;
 
     public FoodTastes(){
     }
@@ -27,6 +28,7 @@ class FoodTastes {
         bitterness = Double.parseDouble(values[5]);
         umami = Double.parseDouble(values[6]);
         fat = Double.parseDouble(values[7]);
+        expiryDate = Integer.parseInt(values[8]);
     }
 
     public String getFood(){
@@ -59,5 +61,8 @@ class FoodTastes {
 
     public double getFat() {
         return fat;
+    }
+    public int getExpiryDate(){
+        return expiryDate;
     }
 }

@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity  {
                     HomeTab home = new HomeTab();
                     return home;
                 case 1:
-                      ReceiptTab receipt = new ReceiptTab();
+                    ReceiptTab receipt = new ReceiptTab();
                     return receipt;
                 case 2:
                     CaptureTab capture = new CaptureTab();

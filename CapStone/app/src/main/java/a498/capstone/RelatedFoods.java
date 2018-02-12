@@ -19,8 +19,8 @@ import java.util.HashMap;
  */
 
 public class RelatedFoods {
-    ArrayList<FoodTastes> foods;
-    HashMap<String,Integer> map;
+    public ArrayList<FoodTastes> foods;
+    public HashMap<String,Integer> map;
 
 
     public RelatedFoods(Context context){

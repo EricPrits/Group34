@@ -26,21 +26,22 @@ public class DetailedAdapter extends ArrayAdapter<DetailedData> {
     }
 
     public View getView(int position, View convertView, ViewGroup parent){
-
         DetailedData data = list.get(position);
-
         if(convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.detailed_textviews, parent, false);
 
-        ViewHolder holder = new ViewHolder();
-        holder.tv1 = convertView.findViewById(R.id.textView1);
-        holder.tv2 = convertView.findViewById(R.id.textView2);
-        holder.tv1.setText(data.getFoodType());
-        holder.tv2.setText(Integer.toString(data.getQuantity()));
+
+        TextView tv1 = convertView.findViewById(R.id.textView1);
+        TextView tv2 = convertView.findViewById(R.id.textView2);
+        tv1.setText(data.getFoodType());
+        tv2.setText(Integer.toString(data.getQuantity()));
         return convertView;
     }
 
-    static class ViewHolder{
-        TextView tv1, tv2;
+
+    public void refreshData(ArrayList<DetailedData> data){
+        this.list.clear();
+        this.list.addAll(data);
+        notifyDataSetChanged();
     }
 }
