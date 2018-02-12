@@ -1,18 +1,17 @@
 package a498.capstone;
 
-<<<<<<< HEAD
+
 import android.app.ListActivity;
-=======
+
 import android.content.Intent;
->>>>>>> master
+
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-<<<<<<< HEAD
+
 import android.app.ListActivity;
 
-=======
->>>>>>> master
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -33,12 +32,9 @@ import android.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-<<<<<<< HEAD
 import android.widget.ListAdapter;
 import android.widget.TextView;
-=======
->>>>>>> master
+
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -83,24 +79,15 @@ public class MainActivity extends AppCompatActivity  {
         tabLayout.getTabAt(3).setIcon(R.drawable.settings);
     }
 
-<<<<<<< HEAD
 
-    @Override
+
     /** Called when the user touches the button ** /
      *
      */
-    public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    String[] foods = {"Bananas", "Eggs", "Steak", "Cereal"};
-    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getListView().getContext(), android.R.layout.simple_list_item_1, foods);
-    getListView().setAdapter(adapter);
-    }
 
 
 
-=======
-        @Override
->>>>>>> master
+
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
