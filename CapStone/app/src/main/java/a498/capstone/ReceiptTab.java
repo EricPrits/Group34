@@ -36,7 +36,6 @@ public class ReceiptTab extends Fragment implements ReceiptSummaryEdit.ReceiptSu
         ListView listView = rootView.findViewById(R.id.receiptListView);
         myAdapter = new SummaryAdapter(getContext(), sumList);
         listView.setAdapter(myAdapter);
-        ArrayList<ArrayList<DetailedData>> data = receipt_db.getAllReceipts();
 
         // When item is list is clicked, start new Activity displaying details
         listView.setOnItemClickListener(new ListView.OnItemClickListener() {

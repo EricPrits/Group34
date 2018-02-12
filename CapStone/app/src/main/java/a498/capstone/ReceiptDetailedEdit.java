@@ -43,8 +43,8 @@ public class ReceiptDetailedEdit extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         Bundle bundle = new Bundle();
                         bundle.putInt("id",_id);
-                        bundle.putString("foodType", foodType);
-                        bundle.putInt("quantity", quantity);
+                        bundle.putString("foodType", editFoodType.getText().toString());
+                        bundle.putInt("quantity", Integer.parseInt(editQuantity.getText().toString()));
                         setArguments(bundle);
                         mListener.onPosClick(ReceiptDetailedEdit.this);
                     }
@@ -53,15 +53,20 @@ public class ReceiptDetailedEdit extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         Bundle bundle = new Bundle();
+                        bundle.putInt("id", _id);
                         mListener.onNegClick(ReceiptDetailedEdit.this);
                     }
                 });
 
 
         editFoodType.setText(foodType);
-        editQuantity.setText(quantity);
+        editQuantity.setText(Integer.toString(quantity));
 
         return builder.create();
+    }
+
+    public void setmListener(ReceiptDetailedEdit.ReceiptDetailedEditListener context){
+        this.mListener = context;
     }
 
 

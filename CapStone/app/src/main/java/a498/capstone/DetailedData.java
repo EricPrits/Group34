@@ -22,6 +22,10 @@ public class DetailedData implements Parcelable {
         this.purchaseDate = purchaseDate;
     }
 
+    public DetailedData(){
+
+    }
+
     public int describeContents(){
         return 0;
     }
