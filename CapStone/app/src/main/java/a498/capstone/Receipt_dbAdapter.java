@@ -25,11 +25,13 @@ import java.util.Calendar;
 
 public class Receipt_dbAdapter{
     receipt_dbHelper dbHelper;
+    Context context;
 
 
 
     public Receipt_dbAdapter(Context context)
     {
+        this.context = context;
         dbHelper = new receipt_dbHelper(context);
     }
 
@@ -52,30 +54,55 @@ public class Receipt_dbAdapter{
             contentValues.put(receipt_dbHelper.DATE, date);
         db.insert(receipt_dbHelper.TABLE_NAME, null, contentValues);
 
-
-
         //Query to find _id of newly inserted row
         Cursor cursor = db.rawQuery("Select _id, Date from ReceiptNames order by _id desc limit 1", null);
         cursor.moveToFirst();
         String id = Integer.toString(cursor.getInt(cursor.getColumnIndex("_id")));
         String dateBought = cursor.getString(cursor.getColumnIndex("Date"));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c1 = Calendar.getInstance();
+        RelatedFoods values = new RelatedFoods(context);
 
         // Create new table for new receipt details
         String newName = "receipt"+id;  //New table name has id of row in summary table which corresponds to this receipt
-        String create = "CREATE TABLE " +newName+ " (_id INTEGER PRIMARY KEY, FoodType VARCHAR(255), Quantity INTEGER, ExpiryDate DATE)";
+        String create = "CREATE TABLE " +newName+ " (_id INTEGER PRIMARY KEY, FoodType VARCHAR(255), Quantity INTEGER, ExpiryDate DATE, PurchaseDate DATE)";
         db.execSQL(create);
-
         // Add each food item, from the receipt, to the new table
         for(int i = 0; i < list.size(); i++){
+            try {
+                c1.setTime(sdf.parse(dateBought));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             contentValues.clear();
             String foodType = list.get(i)[0];
             int quantity = Integer.parseInt(list.get(i)[1]);
-            contentValues.put("FoodType", foodType);
+            contentValues.put("FoodType", foodType.toLowerCase());
             contentValues.put("Quantity", quantity);
-            contentValues.put("ExpiryDate", "DATEADD (month, 1, "+dateBought+")");
-            db.insert(newName,  null, contentValues);
+            FoodTastes currentFood = new FoodTastes();
+            int timeAdded = 0;
+            try {
+                currentFood = values.foods.get(values.map.get(foodType));
+                timeAdded = currentFood.getExpiryDate();
+            } catch (Exception e) {
+
+            }
+            String newDate;
+            if(timeAdded == 0)
+                newDate = "N/A";
+            else{
+                c1.add(Calendar.DATE, timeAdded);
+                int day = c1.get(Calendar.DAY_OF_MONTH);
+                int month = c1.get(Calendar.MONTH) + 1;
+                int year = c1.get(Calendar.YEAR);
+                newDate = sdf.format(c1.getTime());
+            }
+            contentValues.put("ExpiryDate", newDate);
+            contentValues.put("PurchaseDate", dateBought);
+            db.insert(newName, null, contentValues);
         }
-        db.close();
+
+
     }
 
     public void addReceipt(String name, ArrayList<String[]> list){
@@ -91,7 +118,7 @@ public class Receipt_dbAdapter{
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String tableName = "receipt"+id;
         db.delete(dbHelper.TABLE_NAME, "_id = "+id, null);
-        db.rawQuery("DROP TABLE "+tableName, null);
+        db.execSQL("DROP TABLE IF EXISTS "+tableName);
         db.close();
     }
 
@@ -271,7 +298,7 @@ public class Receipt_dbAdapter{
                     e.printStackTrace();
                 }
                 contentValues.clear();
-                String foodType = list.get(i)[0];
+                String foodType = list.get(i)[0].toLowerCase();
                 int quantity = Integer.parseInt(list.get(i)[1]);
                 contentValues.put("FoodType", foodType);
                 contentValues.put("Quantity", quantity);

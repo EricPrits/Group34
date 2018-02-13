@@ -1,6 +1,7 @@
 package a498.capstone;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,10 +32,21 @@ public class DetailedAdapter extends ArrayAdapter<DetailedData> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.detailed_textviews, parent, false);
 
 
+
         TextView tv1 = convertView.findViewById(R.id.textView1);
         TextView tv2 = convertView.findViewById(R.id.textView2);
         tv1.setText(data.getFoodType());
         tv2.setText(Integer.toString(data.getQuantity()));
+        if(position %2 == 1){
+            tv1.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
+            tv2.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
+        }
+        else{
+            tv1.setBackgroundColor(Color.TRANSPARENT);
+            tv2.setBackgroundColor(Color.TRANSPARENT);
+        }
+
+
         return convertView;
     }
 

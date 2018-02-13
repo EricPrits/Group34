@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -10,27 +11,27 @@
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="181dp"
+            android:layout_width="292dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:fontFamily="serif"
+            android:paddingBottom="0dp"
             android:text="Food"
-            android:paddingBottom="5dp"
-            android:textSize="40dp" />
+            android:textSize="40dp"/>
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="serif"
-            android:text="Quantity"
-            android:paddingBottom="5dp"
+            android:gravity="center"
+            android:paddingBottom="0dp"
+            android:text="#"
             android:textSize="40dp" />
     </LinearLayout>
 
     <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id = "@+id/detaillist"/>
+        android:id="@+id/detaillist"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -44,7 +45,10 @@ public class ReceiptDetailedEdit extends DialogFragment {
                         Bundle bundle = new Bundle();
                         bundle.putInt("id",_id);
                         bundle.putString("foodType", editFoodType.getText().toString());
-                        bundle.putInt("quantity", Integer.parseInt(editQuantity.getText().toString()));
+                        if(TextUtils.isEmpty(editQuantity.getText().toString()))
+                            bundle.putInt("quantity", 1);
+                        else
+                            bundle.putInt("quantity", Integer.parseInt(editQuantity.getText().toString()));
                         setArguments(bundle);
                         mListener.onPosClick(ReceiptDetailedEdit.this);
                     }

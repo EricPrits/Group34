@@ -46,9 +46,9 @@ public class RelatedFoods {
     }
 
     public String getNewFood(String food) {
-        FoodTastes currentFood = new FoodTastes();
+        FoodTastes currentFood;
         try {
-            currentFood = foods.get(map.get(food));
+            currentFood = foods.get(map.get(food.toLowerCase()));
             String match = getMatch(currentFood);
             return match;
         } catch (Exception e) {
