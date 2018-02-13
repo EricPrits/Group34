@@ -114,36 +114,36 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
 //        autoCorrect = new ParseSpellChecker();
 //        autoCorrect.createSession();
         String[] temp = new String[2];
-        corrected="";
-        parsedCorrected = new ArrayList<String[]>();
-        for (int i=0; i <parsed.size();i++){
-           fetchSuggestionsFor(parsed.get(i)[0]);
-           if(corrected!="") {
-                temp[0] = corrected;
-                temp[1] = parsed.get(i)[1];
-                parsedCorrected.add(temp);
-            }
-            else
-                parsedCorrected.add(parsed.get(i));
-
-        }
+//        corrected="";
+//        parsedCorrected = new ArrayList<String[]>();
+//        for (int i=0; i <parsed.size();i++){
+//           fetchSuggestionsFor(parsed.get(i)[0]);
+//           if(corrected!="") {
+//                temp[0] = corrected;
+//                temp[1] = parsed.get(i)[1];
+//                parsedCorrected.add(temp);
+//            }
+//            else
+//                parsedCorrected.add(parsed.get(i));
+//
+//        }
 
         arrayMatched=new ArrayList<String[]>();
         RelatedFoods foodList = new RelatedFoods(context);
         final ArrayList<String> foodNames = receipt_db.getAdditionalFoods();
         int replaced =0;
-        for(int i=0; i<parsedCorrected.size();i++){
+        for(int i=0; i<parsed.size();i++){
             for(int j=0; j<foodNames.size();j++){
-                if(parsedCorrected.get(i)[0].contains(foodNames.get(j))) {
+                if(parsed.get(i)[0].contains(foodNames.get(j))) {
                     temp[0] = foodNames.get(j);
-                    temp[1] = parsedCorrected.get(i)[1];
+                    temp[1] = parsed.get(i)[1];
                     arrayMatched.add(temp);
                     replaced =1;
                     break;
                 }
             }
             if(replaced==0) {
-                arrayMatched.add(parsedCorrected.get(i));
+                arrayMatched.add(parsed.get(i));
                 //notRecognized.add(parsedCorrected.get(i));
             }
         }
@@ -306,8 +306,6 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
 
     @Override
     public void onDialogNegativeKnownClick(DialogFragment dialog) {
-        //RelatedFoods foodList = new RelatedFoods(context);
-        //foodList.setAdditionalFoods(notRecognized,context);
         receipt_db.addReceipt(editName.getText().toString(), editDate.getText().toString(), finalResult);
         finish();
     }
