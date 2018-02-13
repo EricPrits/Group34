@@ -103,7 +103,6 @@ public class ReceiptTab extends Fragment implements ReceiptSummaryEdit.ReceiptSu
      */
     public void setData(){
         Cursor summaryData = receipt_db.getSummaryData();
-        //Populate ArrayList with summary data from database
         sumList = new ArrayList<SummaryData>();
         detailedList = new HashMap<Integer, ArrayList<DetailedData>>();
         while(summaryData.moveToNext()){

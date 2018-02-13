@@ -1,9 +1,17 @@
 package a498.capstone;
 
+
+import android.app.ListActivity;
+
 import android.content.Intent;
+
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+
+import android.app.ListActivity;
+
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -24,9 +32,11 @@ import android.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import java.util.ArrayList;
 import java.util.HashMap;
+import android.widget.ListAdapter;
+import android.widget.TextView;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -69,7 +79,15 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(3).setIcon(R.drawable.settings);
     }
 
-        @Override
+
+
+    /** Called when the user touches the button ** /
+     *
+     */
+
+
+
+
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
