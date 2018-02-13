@@ -18,18 +18,13 @@ import java.util.HashMap;
 
 public class HomeTab extends Fragment {
 
-    ArrayList<SummaryData> mainList;
-    HashMap<Integer, ArrayList<DetailedData>> detailedList;
-    Receipt_dbAdapter receipt_db;
-    SummaryAdapter myAdapter;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_tab, container, false);
 
         ListView listView = rootView.findViewById(R.id.mainListView);
-        myAdapter = new SummaryAdapter(getContext(), mainList);
+        myAdapter = new DetailedAdapter(getContext(), mainList);
         listView.setAdapter(myAdapter);
         return rootView;
     }
@@ -40,21 +35,43 @@ public class HomeTab extends Fragment {
         receipt_db = new Receipt_dbAdapter(getContext());
         loadList();
     }
-
+    //Creates an  array list of array list that include all of the food objects that has been scanned
+    //And placed into the db
+    ArrayList<ArrayList<DetailedData>> allFoods;
+     ArrayList<DetailedData> mainList;
+    HashMap<Integer, ArrayList<DetailedData>> detailedList;
+    Receipt_dbAdapter receipt_db;
+    DetailedAdapter myAdapter;
 
     public void loadList(){
-        Cursor summaryData = receipt_db.getSummaryData();
-        //Populate ArrayList with summary data from database
-        mainList = new ArrayList<SummaryData>();
-        detailedList = new HashMap<Integer, ArrayList<DetailedData>>();
-        while(summaryData.moveToNext()){
-            int id = summaryData.getInt(summaryData.getColumnIndex("_id"));
-            String name = summaryData.getString(summaryData.getColumnIndex("Name"));
-            String date = summaryData.getString(summaryData.getColumnIndex("Date"));
-            if(date.length() >= 10)
-                date = date.substring(0, 10);  //Keep only date part of timestamp (cut off time part)
-            SummaryData data = new SummaryData(id, name, date);
-            mainList.add(data);
-        }
+        ArrayList<ArrayList<DetailedData>> allFoods = receipt_db.getAllReceipts();
+        //For all the reciepts in the allFoods array list
+        for(int i = 1; i <= allFoods.size(); i++){
+
+            //For all the foods in each reciept
+            for(int j = 1; i <=allFoods.get(i).size(); i++)
+            {
+                mainList.add(allFoods.get(i).get(j));
+            }
+    }
+
+
+        //Everything from this point on can be used to populate the mainlist
+        //SummaryData must be set to the new data set of foods
+        //Cursor summaryData = receipt_db.getSummaryData();
+
+
+        //detailedList = new HashMap<Integer, ArrayList<DetailedData>>();
+
+
+//        //This will add everything in the reciept database
+//        while(summaryData.moveToNext()){
+//            int id = summaryData.getInt(summaryData.getColumnIndex("_id"));
+//            String name = summaryData.getString(summaryData.getColumnIndex("Name"));
+//            String date = summaryData.getString(summaryData.getColumnIndex("Date"));
+//            if(date.length() >= 10) date = date.substring(0, 10);  //Keep only date part of timestamp (cut off time part)
+//            SummaryData data = new SummaryData(id, name, date);
+//            mainList.add(data);
+//        }
     }
 }
