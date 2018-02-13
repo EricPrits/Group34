@@ -51,7 +51,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-public class ParseReceipt extends AppCompatActivity implements SpellCheckerSession.SpellCheckerSessionListener, ParseDeleteDialog.ParseDeleteDialogListener{
+public class ParseReceipt extends AppCompatActivity implements SpellCheckerSession.SpellCheckerSessionListener, ParseDeleteDialog.ParseDeleteDialogListener,UpdateKnownFoodsDialog.UpdateKnownFoodsDialogListener{
 
     public Receipt_dbAdapter receipt_db;
     EditText editDate;
@@ -60,6 +60,9 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
     ArrayList<String[]> parsedCorrected;
     ArrayList<String> array;
     ArrayList<String> arraySeperated;
+    ArrayList<String[]> arrayMatched;
+    ArrayList<String[]> finalResult;
+    ArrayList<String> notRecognized;
     ParsedAdapter myAdapter;
     ParseSpellChecker autoCorrect;
     String corrected;
@@ -73,6 +76,7 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
         final ListView listView = findViewById(R.id.parsedListView);
         listView.setItemsCanFocus(true);
 
+        notRecognized = new ArrayList<String>();
 
         receipt_db= new Receipt_dbAdapter(context);
         parsed = new ArrayList<String[]>();
@@ -105,37 +109,57 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
                     parsed.add(temp);
             }
         }
+
+        //Use spell correct
 //        autoCorrect = new ParseSpellChecker();
 //        autoCorrect.createSession();
-        correct = true;
         String[] temp = new String[2];
-        corrected="";
-        parsedCorrected = new ArrayList<String[]>();
-        for (int i=0; i <parsed.size();i++){
-            fetchSuggestionsFor(parsed.get(i)[0]);
-           if(corrected!="") {
-                temp[0] = corrected;
-                temp[1] = parsed.get(i)[1];
-                parsedCorrected.add(temp);
-                //correct = true;
-            }
-            else
-                parsedCorrected.add(parsed.get(i));
+//        corrected="";
+//        parsedCorrected = new ArrayList<String[]>();
+//        for (int i=0; i <parsed.size();i++){
+//           fetchSuggestionsFor(parsed.get(i)[0]);
+//           if(corrected!="") {
+//                temp[0] = corrected;
+//                temp[1] = parsed.get(i)[1];
+//                parsedCorrected.add(temp);
+//            }
+//            else
+//                parsedCorrected.add(parsed.get(i));
+//
+//        }
 
+        arrayMatched=new ArrayList<String[]>();
+        RelatedFoods foodList = new RelatedFoods(context);
+        final ArrayList<String> foodNames = receipt_db.getAdditionalFoods();
+        int replaced =0;
+        for(int i=0; i<parsed.size();i++){
+            for(int j=0; j<foodNames.size();j++){
+                if(parsed.get(i)[0].contains(foodNames.get(j))) {
+                    temp[0] = foodNames.get(j);
+                    temp[1] = parsed.get(i)[1];
+                    arrayMatched.add(temp);
+                    replaced =1;
+                    break;
+                }
+            }
+            if(replaced==0) {
+                arrayMatched.add(parsed.get(i));
+                //notRecognized.add(parsedCorrected.get(i));
+            }
         }
-        myAdapter = new ParsedAdapter(context, parsedCorrected);
+        myAdapter = new ParsedAdapter(context, arrayMatched);
         listView.setAdapter(myAdapter);
 
         //Listeners
         final Button button = (Button) findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ArrayList<String[]> result = new ArrayList<String[]>();
+                finalResult = new ArrayList<String[]>();
                 for (int i = 0; i < parsed.size(); i++) {
-                    result.add(myAdapter.getItem(i));
+                    finalResult.add(myAdapter.getItem(i));
                 }
-                receipt_db.addReceipt(editName.getText().toString(), editDate.getText().toString(), result);
-                finish();
+                updateKnownFoods(finalResult,foodNames);
+
             }
         });
         final Button buttonCancel = (Button) findViewById(R.id.cancel_button);
@@ -163,6 +187,29 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
         });
 
 
+    }
+
+    public void updateKnownFoods(ArrayList<String[]> input, ArrayList<String> foodNames){
+        String[] temp = new String[2];
+        int replaced =0;
+        for(int i=0; i<input.size();i++){
+            for(int j=0; j<foodNames.size();j++){
+                if(input.get(i)[0].contains(foodNames.get(j))) {
+                    replaced =1;
+                    break;
+                }
+            }
+            if(replaced==0) {
+                notRecognized.add(input.get(i)[0]);
+            }
+        }
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList("List", notRecognized);
+        UpdateKnownFoodsDialog dialog = new UpdateKnownFoodsDialog();
+        dialog.setArguments(bundle);
+        dialog.setListener(ParseReceipt.this);
+        String tag = "UpdateKnownFoodsDialog";
+        dialog.show(getSupportFragmentManager(), tag);
     }
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.parse_menu, menu);
@@ -255,5 +302,16 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
         result[1]= String.valueOf(quantity);
         result[0]= itemName;
         return result;
+    }
+
+    @Override
+    public void onDialogNegativeKnownClick(DialogFragment dialog) {
+        receipt_db.addReceipt(editName.getText().toString(), editDate.getText().toString(), finalResult);
+        finish();
+    }
+
+    @Override
+    public void onDialogPositiveKnownClick(DialogFragment dialog) {
+
     }
 }

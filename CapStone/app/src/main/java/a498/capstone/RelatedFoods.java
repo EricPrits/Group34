@@ -21,6 +21,7 @@ import java.util.HashMap;
 public class RelatedFoods {
     public ArrayList<FoodTastes> foods;
     public HashMap<String,Integer> map;
+    ArrayList<String> allFoods;
 
 
     public RelatedFoods(Context context){
@@ -30,6 +31,7 @@ public class RelatedFoods {
         );
         foods = new ArrayList<>();
         map = new HashMap<>();
+        allFoods = new ArrayList<>();
         String line = "";
         try {
             while((line = reader.readLine()) != null){
@@ -38,12 +40,15 @@ public class RelatedFoods {
                 FoodTastes foodValues = new FoodTastes(values);
                 foods.add(foodValues);
                 map.put(foodValues.getFood(), foods.indexOf(foodValues));
+                allFoods.add(foodValues.getFood());
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
+
 
     public String getNewFood(String food) {
         FoodTastes currentFood;
@@ -81,5 +86,8 @@ public class RelatedFoods {
         return match;
     }
 
+    private ArrayList<String> getAllFoods(){
+        return allFoods;
+    }
 
 }
