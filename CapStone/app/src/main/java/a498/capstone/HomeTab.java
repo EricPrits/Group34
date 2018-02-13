@@ -71,7 +71,7 @@ public class HomeTab extends Fragment {
             {
                int counter = 0;
                //Iterate through the same list
-               for (int j = 0; j < mainList.size(); j++)
+               for (int j = i; j < mainList.size(); j++)
                {
 
                     //check if theres a repeated food
