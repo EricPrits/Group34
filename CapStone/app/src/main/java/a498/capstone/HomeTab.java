@@ -23,7 +23,7 @@ public class HomeTab extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_tab, container, false);
         ListView listView = rootView.findViewById(R.id.mainListView);
-        myAdapter = new DetailedAdapter(getContext(), mainList);
+        myAdapter = new HomeAdapter(getContext(), mainList);
         listView.setAdapter(myAdapter);
         return rootView;
     }
@@ -40,7 +40,7 @@ public class HomeTab extends Fragment {
     ArrayList<DetailedData> mainList;
 
     Receipt_dbAdapter receipt_db;
-    DetailedAdapter myAdapter;
+    HomeAdapter myAdapter;
 
     public void loadList(){
         allFoods = receipt_db.getAllReceipts();
