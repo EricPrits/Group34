@@ -41,16 +41,21 @@ public class UpdateKnownFoodsDialog extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final LinearLayout lay = (LinearLayout) inflater.inflate(R.layout.dialog_updateknownfoods, null);
         final TextView message = lay.findViewById(R.id.updateMessage);
+        final TextView message2 = lay.findViewById(R.id.updateMessage2);
         String messageText;
+        String messageText2;
 
-        if(list.size()<3){
+        if(list.size()<3 && list.size()>0){
             String temp= "";
             for(int i=0; i<list.size();i++)
                 temp = temp + ", " +list.get(i);
-            messageText= "The following item(s) will be added to known foods:\n" + temp+ ", \nknown foods can be altered in the settings tab later";
+            messageText2= "The following item(s) will be added to known foods:" ;
+            messageText =temp+ ", known foods can be altered in the settings tab later";
         }
-        else
-            messageText= list.size()+" items will be added to known foods, \nknown foods can be altered in the settings tab later";
+        else {
+            messageText2 = list.size() + " items will be added to known foods,";
+            messageText ="known foods can be altered in the settings tab later";
+        }
 
         builder.setView(lay)
                 .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
@@ -72,6 +77,7 @@ public class UpdateKnownFoodsDialog extends DialogFragment {
 
 
         message.setText(messageText);
+        message2.setText(messageText2);
         return builder.create();
     }
 

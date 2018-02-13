@@ -44,6 +44,9 @@ public class ParsedAdapter extends BaseAdapter{
         result[1]=list.get(position)[1];
         return result;
     }
+    public ArrayList<String[]> getList(int position){
+        return list;
+    }
     public void deleteItem(String name) {
         for(int i=0; i<list.size();i++)
         {

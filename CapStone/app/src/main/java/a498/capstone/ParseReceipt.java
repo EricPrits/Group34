@@ -99,13 +99,13 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
             for (int i = 0; i < array.size(); i++) {
                 String lines[] = array.get(i).split("\\r?\\n");
                 for(int j=0; j<lines.length;j++){
-                    arraySeperated.add(lines[j]);
+                    arraySeperated.add(lines[j].toLowerCase());
                 }
             }
             String[] temp = new String[2];
             for (int i = 0; i < arraySeperated.size(); i++) {
                 temp =parseReceipt(arraySeperated.get(i));
-                if(!temp[0].equals("Skip"))
+                if(!temp[0].equals("skip"))
                     parsed.add(temp);
             }
         }
@@ -134,8 +134,8 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
         int replaced =0;
         for(int i=0; i<parsed.size();i++){
             for(int j=0; j<foodNames.size();j++){
-                if(parsed.get(i)[0].contains(foodNames.get(j))) {
-                    temp[0] = foodNames.get(j);
+                if(parsed.get(i)[0].contains(foodNames.get(j).toLowerCase())) {
+                    temp[0] = foodNames.get(j).toLowerCase();
                     temp[1] = parsed.get(i)[1];
                     arrayMatched.add(temp);
                     replaced =1;
@@ -144,7 +144,6 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
             }
             if(replaced==0) {
                 arrayMatched.add(parsed.get(i));
-                //notRecognized.add(parsedCorrected.get(i));
             }
         }
         myAdapter = new ParsedAdapter(context, arrayMatched);
@@ -155,11 +154,8 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 finalResult = new ArrayList<String[]>();
-                for (int i = 0; i < parsed.size(); i++) {
-                    finalResult.add(myAdapter.getItem(i));
-                }
+                finalResult =(myAdapter.getList(0));
                 updateKnownFoods(finalResult,foodNames);
-
             }
         });
         final Button buttonCancel = (Button) findViewById(R.id.cancel_button);
@@ -289,18 +285,28 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
                     itemName = line.substring(i+4);
                 }
             }
-            if ((line.charAt(i))=='$' || (line.charAt(i))=='@'|| line.contains("kg") || line.length()<=2 || line.contains(".99") || line.contains("%")||line.contains("PLASTIC")||line.contains("%")) {
+            if (line.contains("$") || line.contains("@") || line.contains("kg") || line.length()<=3 || line.contains(".99") || line.contains("%")||line.contains("plastic")||line.contains("%")) {
                 //skipline
-                itemName="Skip";
+                itemName="skip";
+            }
+            if (line.contains("2") || line.contains("3")|| line.contains("4")  || line.contains("5") || line.contains("6")||line.contains("7")||line.contains("8")||line.contains("9")) {
+                //skipline
+                itemName="skip";
+            }
+            if(line.charAt(i)=='1'){
+                line.replace('1','l');
+            }
+            if(line.charAt(i)=='0'){
+                line.replace('0','o');
             }
         }
-        if(quantity == 0 && !itemName.equals("Skip")){
+        if(quantity == 0 && !itemName.equals("skip")){
             quantity = 1;
             itemName=line;
         }
 
         result[1]= String.valueOf(quantity);
-        result[0]= itemName;
+        result[0]= itemName.toLowerCase();
         return result;
     }
 
