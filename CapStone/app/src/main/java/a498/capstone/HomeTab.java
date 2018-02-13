@@ -43,12 +43,13 @@ public class HomeTab extends Fragment {
     DetailedAdapter myAdapter;
 
     public void loadList(){
-        ArrayList<ArrayList<DetailedData>> allFoods = receipt_db.getAllReceipts();
+        allFoods = receipt_db.getAllReceipts();
+        mainList = new ArrayList<>();
         //For all the reciepts in the allFoods array list
-        for(int i = 1; i <= allFoods.size(); i++){
+        for(int i = 0; i < allFoods.size(); i++){
 
             //For all the foods in each reciept
-            for(int j = 1; i <=allFoods.get(i).size(); i++)
+            for(int j = 0; j < allFoods.get(i).size(); j++)
             {
                 mainList.add(allFoods.get(i).get(j));
             }
