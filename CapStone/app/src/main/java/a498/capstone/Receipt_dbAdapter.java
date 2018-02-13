@@ -168,10 +168,25 @@ public class Receipt_dbAdapter{
         return list;
     }
 
-    public SQLiteDatabase getDatabase(){
-        return dbHelper.getWritableDatabase();
+    public ArrayList<String> getAdditionalFoods(){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query("AdditionalFoods", null, null, null, null, null, null);
+        ArrayList<String> list = new ArrayList<>();
+        while(cursor.moveToNext()){
+            list.add(cursor.getString(cursor.getColumnIndex("Name")));
+        }
+        return list;
     }
 
+    public void addAdditionalFoods(ArrayList<String> names){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        for(String food : names){
+            contentValues.clear();
+            contentValues.put("Name", food);
+            db.insert("AdditionalFoods", null, contentValues);
+        }
+    }
 
     //Extending SQLiteOpenHelper, to allow for database creation and use
     static class receipt_dbHelper extends SQLiteOpenHelper {
@@ -197,6 +212,7 @@ public class Receipt_dbAdapter{
          */
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(CREATE_TABLE);
+            db.execSQL("CREATE TABLE AdditionalFoods (Name VARCHAR(255));");
             ArrayList<String[]> list = new ArrayList<String[]>();
             list.add(foodList("Apple juice", "1"));
             list.add(foodList("Ham", "1"));
@@ -271,7 +287,10 @@ public class Receipt_dbAdapter{
                     e.printStackTrace();
                 }
                 contentValues.clear();
-                String foodType = list.get(i)[0];
+                String foodType = list.get(i)[0].toLowerCase();
+                contentValues.put("Name", foodType);
+                db.insert("AdditionalFoods", null, contentValues);
+                contentValues.clear();
                 int quantity = Integer.parseInt(list.get(i)[1]);
                 contentValues.put("FoodType", foodType);
                 contentValues.put("Quantity", quantity);

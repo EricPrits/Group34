@@ -130,7 +130,7 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
 
         arrayMatched=new ArrayList<String[]>();
         RelatedFoods foodList = new RelatedFoods(context);
-        final ArrayList<String> foodNames = foodList.getFoods();
+        final ArrayList<String> foodNames = receipt_db.getAdditionalFoods();
         int replaced =0;
         for(int i=0; i<parsedCorrected.size();i++){
             for(int j=0; j<foodNames.size();j++){
@@ -306,8 +306,8 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
 
     @Override
     public void onDialogNegativeKnownClick(DialogFragment dialog) {
-        RelatedFoods foodList = new RelatedFoods(context);
-        foodList.setAdditionalFoods(notRecognized,context);
+        //RelatedFoods foodList = new RelatedFoods(context);
+        //foodList.setAdditionalFoods(notRecognized,context);
         receipt_db.addReceipt(editName.getText().toString(), editDate.getText().toString(), finalResult);
         finish();
     }
