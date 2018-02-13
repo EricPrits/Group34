@@ -22,24 +22,23 @@ public class HomeTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_tab, container, false);
-
         ListView listView = rootView.findViewById(R.id.mainListView);
         myAdapter = new DetailedAdapter(getContext(), mainList);
         listView.setAdapter(myAdapter);
         return rootView;
     }
-
     @Override
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
         receipt_db = new Receipt_dbAdapter(getContext());
         loadList();
     }
+
     //Creates an  array list of array list that include all of the food objects that has been scanned
     //And placed into the db
     ArrayList<ArrayList<DetailedData>> allFoods;
-     ArrayList<DetailedData> mainList;
-    HashMap<Integer, ArrayList<DetailedData>> detailedList;
+    ArrayList<DetailedData> mainList;
+
     Receipt_dbAdapter receipt_db;
     DetailedAdapter myAdapter;
 
