@@ -38,6 +38,7 @@ public class HomeTab extends Fragment {
     //And placed into the db
     ArrayList<ArrayList<DetailedData>> allFoods;
     ArrayList<DetailedData> mainList;
+    ArrayList<DetailedData> duplicatesList;
 
     Receipt_dbAdapter receipt_db;
     HomeAdapter myAdapter;
@@ -53,25 +54,42 @@ public class HomeTab extends Fragment {
             {
                 mainList.add(allFoods.get(i).get(j));
             }
+   }
+
+    mainList = keepDuplicates(mainList);
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////
+    //Algorithm Functions
+    /////////////////////////////////////////////////////////////////////////////////////
+       public ArrayList<DetailedData> keepDuplicates(ArrayList<DetailedData> list)
+       {
+           duplicatesList =  new ArrayList<DetailedData>();
 
-        //Everything from this point on can be used to populate the mainlist
-        //SummaryData must be set to the new data set of foods
-        //Cursor summaryData = receipt_db.getSummaryData();
+            //For every food item in the original list
+           for (int i = 0; i < mainList.size(); i++)
+            {
+               int counter = 0;
+               //Iterate through the same list
+               for (int j = 0; j < mainList.size(); j++)
+               {
 
+                    //check if theres a repeated food
+                    if (mainList.get(i).getFoodType() ==  mainList.get(j).getFoodType()) {
+                        counter++;
+                   }
 
-        //detailedList = new HashMap<Integer, ArrayList<DetailedData>>();
+                   //If a food is found twice on the list, add it to duplicate list
+                   if (counter >= 2){
+                       duplicatesList.add(mainList.get(i));
+                       break;
+                         }
+                }
+         }
 
+          list = duplicatesList;
+          return list;
+      }
 
-//        //This will add everything in the reciept database
-//        while(summaryData.moveToNext()){
-//            int id = summaryData.getInt(summaryData.getColumnIndex("_id"));
-//            String name = summaryData.getString(summaryData.getColumnIndex("Name"));
-//            String date = summaryData.getString(summaryData.getColumnIndex("Date"));
-//            if(date.length() >= 10) date = date.substring(0, 10);  //Keep only date part of timestamp (cut off time part)
-//            SummaryData data = new SummaryData(id, name, date);
-//            mainList.add(data);
-//        }
-    }
-}
+ }
+
