@@ -6,6 +6,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +23,7 @@ import java.util.HashMap;
 public class RelatedFoods {
     public ArrayList<FoodTastes> foods;
     public HashMap<String,Integer> map;
+    ArrayList<String> additionalFoods;
 
 
     public RelatedFoods(Context context){
@@ -43,6 +46,38 @@ public class RelatedFoods {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        InputStream is2 =  context.getResources().openRawResource(R.raw.addtional_foods);
+        BufferedReader reader2 = new BufferedReader(
+                new InputStreamReader(is2, Charset.forName("UTF-8"))
+        );
+
+        additionalFoods = new ArrayList<String>();
+        String line2 = "";
+        try {
+            while((line2 = reader.readLine()) != null){
+                //Split data
+                String values = line2;
+                additionalFoods.add(values);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public ArrayList<String> getFoods(){
+        ArrayList<String> foodNames = new ArrayList<String>();
+        for(int i=0; i<foods.size();i++){
+            foodNames.add(foods.get(i).getFood());
+        }
+        for(int i=0; i<additionalFoods.size();i++){
+            foodNames.add(additionalFoods.get(i));
+        }
+        return foodNames;
+    }
+
+    public void setAdditionalFoods(ArrayList<String> input, Context context){
+
     }
 
     public String getNewFood(String food) {
