@@ -75,7 +75,7 @@ public class HomeTab extends Fragment {
                {
 
                     //check if theres a repeated food
-                    if (mainList.get(i).getFoodType() ==  mainList.get(j).getFoodType()) {
+                    if (mainList.get(i).getFoodType().equals(mainList.get(j).getFoodType())) {
                         counter++;
                    }
 
@@ -83,7 +83,7 @@ public class HomeTab extends Fragment {
                    if (counter >= 2){
                        duplicatesList.add(mainList.get(i));
                        break;
-                         }
+                   }
                 }
          }
 
