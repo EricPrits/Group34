@@ -4,6 +4,17 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/updateMessage2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="16dp"
+        android:inputType="text"
+        android:lines="2" />
+
+    <TextView
         android:id="@+id/updateMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -11,6 +22,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="16dp"
-        android:inputType="text" />
+        android:inputType="text"
+        android:lines="2" />
 
 </LinearLayout>
