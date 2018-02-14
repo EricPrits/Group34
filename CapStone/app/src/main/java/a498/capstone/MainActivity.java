@@ -114,6 +114,12 @@ public class MainActivity extends AppCompatActivity  {
         startActivity(intent);
     }
 
+    public void manualAddReceipt(View view){
+        Intent intent = new Intent(view.getContext(), ParseReceipt.class);
+        intent.putExtra("launchType", "manual");
+        startActivity(intent);
+    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
