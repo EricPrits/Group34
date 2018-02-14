@@ -273,6 +273,8 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
         String[] result = new String[2];
         int quantity= 0;
         String itemName="blank";
+        line=line.toLowerCase();
+
         for(int i =0; i<line.length();i++){
             if(line.charAt(i)=='('){
 
@@ -303,6 +305,10 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
         if(quantity == 0 && !itemName.equals("skip")){
             quantity = 1;
             itemName=line;
+        }
+        if (line.contains("meat") || line.contains("produce")|| line.contains("frozen food")  || line.contains("dairy") || line.contains("general merc")||line.contains("seafood")||line.contains("conn. bakery")||line.contains("grocery")) {
+            //skipline
+            itemName="skip";
         }
 
         result[1]= String.valueOf(quantity);
