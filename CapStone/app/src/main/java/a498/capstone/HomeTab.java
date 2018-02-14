@@ -32,6 +32,7 @@ public class HomeTab extends Fragment {
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
         receipt_db = new Receipt_dbAdapter(getContext());
+        duplicatesList = new ArrayList<DetailedData>();
         loadList();
     }
 
@@ -88,10 +89,19 @@ public class HomeTab extends Fragment {
             for (int j = i; j < mainList.size(); j++)
             {
 
+<<<<<<< HEAD
                 //check if theres a repeated food
                 if (mainList.get(i).getFoodType().equals(mainList.get(j).getFoodType())) {
                     counter++;
                 }
+=======
+            try{
+                expiryDate = curFormater.parse(foodExpiry);
+            }
+            catch (java.text.ParseException e) {
+                  e.printStackTrace();
+            }
+>>>>>>> master
 
                 //If a food is found twice on the list, add it to duplicate list
                 if (counter >= 2){

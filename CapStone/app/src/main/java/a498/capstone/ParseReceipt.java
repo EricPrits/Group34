@@ -90,30 +90,35 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
         String formattedDate = df.format(c);
         editDate.setText(formattedDate);
         editName.setHint("Metro "+formattedDate);
-
+        String launchType;
         //When rerunning from phone fails due to intent not being cleared
-        if(getIntent().getExtras()!=null) {
-            Bundle bundle = getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
+        launchType = (String) bundle.getString("launchType");
+
+        if(!launchType.equals("manual")) {
             array = (ArrayList<String>) bundle.getStringArrayList("array_list");
-            arraySeperated = new ArrayList<String>();
-            for (int i = 0; i < array.size(); i++) {
-                String lines[] = array.get(i).split("\\r?\\n");
-                for(int j=0; j<lines.length;j++){
-                    arraySeperated.add(lines[j].toLowerCase());
-                }
+        }
+        else
+            array=new ArrayList<String>();
+
+        arraySeperated = new ArrayList<String>();
+        for (int i = 0; i < array.size(); i++) {
+            String lines[] = array.get(i).split("\\r?\\n");
+            for(int j=0; j<lines.length;j++){
+                arraySeperated.add(lines[j].toLowerCase());
             }
-            String[] temp = new String[2];
-            for (int i = 0; i < arraySeperated.size(); i++) {
-                temp =parseReceipt(arraySeperated.get(i));
-                if(!temp[0].equals("skip"))
-                    parsed.add(temp);
-            }
+        }
+        String[] temp = new String[2];
+        for (int i = 0; i < arraySeperated.size(); i++) {
+            temp =parseReceipt(arraySeperated.get(i));
+            if(!temp[0].equals("skip"))
+                parsed.add(temp);
         }
 
         //Use spell correct
 //        autoCorrect = new ParseSpellChecker();
 //        autoCorrect.createSession();
-        String[] temp = new String[2];
+        temp = new String[2];
 //        corrected="";
 //        parsedCorrected = new ArrayList<String[]>();
 //        for (int i=0; i <parsed.size();i++){

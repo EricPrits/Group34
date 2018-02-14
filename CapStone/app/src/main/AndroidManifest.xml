@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ParseReceipt"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustPan">
             <!--Default Intent Filter-->
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT"/>
