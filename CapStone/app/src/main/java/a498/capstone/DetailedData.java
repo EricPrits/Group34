@@ -22,9 +22,10 @@ public class DetailedData implements Parcelable {
         this.purchaseDate = purchaseDate;
     }
 
-    public DetailedData(){
-
+    public DetailedData(String food){
+        foodType = food;
     }
+
 
     public int describeContents(){
         return 0;

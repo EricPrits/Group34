@@ -207,6 +207,23 @@ public class Receipt_dbAdapter{
         return list;
     }
 
+    public void deleteAdditionalFoods(String name){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete("AdditionalFoods", "Name = "+name, null);
+    }
+
+    public ArrayList<String> getNewAdditionalFoods(){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ArrayList<String> list = new ArrayList<>();
+        String[] columns = {"Name"};
+        Cursor cursor = db.query("AdditionalFoods", columns, "id > 150", null, null, null, null);
+        while(cursor.moveToNext()){
+            list.add(cursor.getString(cursor.getColumnIndex("Name")));
+        }
+        return list;
+    }
+
+
     //Extending SQLiteOpenHelper, to allow for database creation and use
     static class receipt_dbHelper extends SQLiteOpenHelper {
 
@@ -231,7 +248,8 @@ public class Receipt_dbAdapter{
          */
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(CREATE_TABLE);
-            db.execSQL("CREATE TABLE AdditionalFoods (Name VARCHAR(255));");
+            db.execSQL("CREATE TABLE AdditionalFoods (id integer primary key, Name VARCHAR(255));");
+            insertFoods(db);
             ArrayList<String[]> list = new ArrayList<String[]>();
             list.add(foodList("Apple juice", "1"));
             list.add(foodList("Ham", "1"));
@@ -273,6 +291,16 @@ public class Receipt_dbAdapter{
         public static String[] foodList(String foodType, String quantity){
             String[] list = {foodType, quantity};
             return list;
+        }
+
+        public void insertFoods(SQLiteDatabase db){
+            RelatedFoods foods = new RelatedFoods(context);
+            ArrayList<String> list = foods.getAllFoods();
+            for(String s:list){
+                ContentValues cv = new ContentValues();
+                cv.put("Name", s);
+                db.insert("AdditionalFoods", null, cv);
+            }
         }
 
 

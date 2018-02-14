@@ -3,33 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:windowSoftInputMode="adjustResize">
+    android:windowSoftInputMode="adjustResize"
+    android:fitsSystemWindows="true">
 
     <ListView
         android:id="@+id/parsedListView"
         android:layout_width="match_parent"
         android:layout_height="399dp"
-        android:entries="@android:drawable/edit_text" />
+        android:entries="@android:drawable/edit_text"
+        android:windowSoftInputMode="adjustResize"
+        android:fitsSystemWindows="true"/>
 
     <EditText
         android:id="@+id/setNameEdit"
+        android:windowSoftInputMode="adjustResize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Metro"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:fitsSystemWindows="true"/>
 
     <EditText
         android:id="@+id/setDateEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:windowSoftInputMode="adjustResize"
+        android:fitsSystemWindows="true"/>
 
     <RelativeLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:windowSoftInputMode="adjustResize">
 
         <Button
             android:id="@+id/cancel_button"
@@ -39,7 +47,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:onClick="cancel"
-            android:text="Cancel" />
+            android:text="Cancel"
+            android:windowSoftInputMode="adjustResize"/>
 
         <Button
             android:id="@+id/button2"
@@ -48,7 +57,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:text="Finished" />
+            android:text="Finished"
+            android:windowSoftInputMode="adjustResize"/>
     </RelativeLayout>
 
 </LinearLayout>

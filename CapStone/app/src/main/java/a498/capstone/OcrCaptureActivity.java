@@ -247,6 +247,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         }
         Intent intent = new Intent(this, ParseReceipt.class);
         intent.putExtra("array_list", array);
+        intent.putExtra("launchType","Scan");
         startActivity(intent);
     }
 
