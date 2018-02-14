@@ -5,6 +5,7 @@ import android.app.ListActivity;
 
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.support.design.widget.TabLayout.Tab;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,6 +35,7 @@ import android.view.LayoutInflater;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.widget.ListAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
 
 
@@ -48,7 +51,8 @@ public class MainActivity extends AppCompatActivity  {
      */
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
+    private static final String PREFS_NAME = "prefs";
+    private static final String PREF_DARK_THEME = "dark_theme";
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -56,8 +60,15 @@ public class MainActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean useDarkTheme = preferences.getBoolean(PREF_DARK_THEME, false);
+
+        if(useDarkTheme) {
+            setTheme(R.style.Theme2);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
@@ -156,4 +167,6 @@ public class MainActivity extends AppCompatActivity  {
             return 4;
         }
     }
+
+
 }

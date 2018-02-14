@@ -33,6 +33,7 @@ public class HomeTab extends Fragment {
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
         receipt_db = new Receipt_dbAdapter(getContext());
+        duplicatesList = new ArrayList<DetailedData>();
         loadList();
     }
 
@@ -121,7 +122,7 @@ public class HomeTab extends Fragment {
             //Format string from database into a date variable
 
             try{
-                Date expiryDate = curFormater.parse(foodExpiry);
+                expiryDate = curFormater.parse(foodExpiry);
             }
             catch (java.text.ParseException e) {
                   e.printStackTrace();

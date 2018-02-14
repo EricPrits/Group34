@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ public class AdditionalFoodsAdapter extends BaseAdapter{
     private LayoutInflater mInflater;
     public ArrayList<String> list;
     Context thisContext;
-    EditText itemView;
+    TextView itemView;
 
     public AdditionalFoodsAdapter(Context context, ArrayList<String> receipt) {
         list=receipt;
@@ -64,7 +65,7 @@ public class AdditionalFoodsAdapter extends BaseAdapter{
 
             holder = new ViewHolder();
             convertView = LayoutInflater.from(thisContext).inflate(R.layout.additionalfood_list_layout, parent, false);
-            holder.itemText = (EditText) convertView.findViewById(R.id.item_entry);
+            holder.itemText = (TextView) convertView.findViewById(R.id.item_entry);
 
             convertView.setTag(holder);
 
@@ -73,7 +74,7 @@ public class AdditionalFoodsAdapter extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        itemView = (EditText) convertView.findViewById(R.id.item_entry);
+        itemView = (TextView) convertView.findViewById(R.id.item_entry);
 
         holder.ref = position;
 
@@ -106,7 +107,7 @@ public class AdditionalFoodsAdapter extends BaseAdapter{
         return convertView;
     }
     private class ViewHolder {
-        EditText itemText;
+        TextView itemText;
         int ref;
     }
 }
