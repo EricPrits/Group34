@@ -36,7 +36,7 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="398dp"
+        android:layout_width="372dp"
         android:layout_height="178dp"
         android:adjustViewBounds="true"
         android:cropToPadding="true"
