@@ -19,10 +19,9 @@ import java.util.Date;
  */
 
 public class HomeTab extends Fragment {
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                            Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_tab, container, false);
         ListView listView = rootView.findViewById(R.id.mainListView);
         myAdapter = new HomeAdapter(getContext(), mainList);
@@ -69,9 +68,9 @@ public class HomeTab extends Fragment {
                 mainList.add(allFoods.get(i).get(j));
             }
    }
-    duplicatesList = keepDuplicates(mainList);
-    expiredList  = keepExpired(mainList);
-    alternativesList = keepAlternatives(mainList);
+   // duplicatesList = keepDuplicates(mainList);
+    //expiredList  = keepExpired(mainList);
+    //alternativesList = keepAlternatives(mainList);
  }
 
     /////////////////////////////////////////////////////////////////////////////////////
