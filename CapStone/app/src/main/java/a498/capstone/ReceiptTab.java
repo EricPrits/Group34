@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +24,12 @@ import java.util.HashMap;
  * Created by patrickgibson on 2017-11-28.
  */
 
-public class ReceiptTab extends Fragment implements ReceiptSummaryEdit.ReceiptSummaryEditListener{
+public class ReceiptTab extends Fragment implements ReceiptSummaryEdit.ReceiptSummaryEditListener, SwipeRefreshLayout.OnRefreshListener{
     ArrayList<SummaryData> sumList;
     HashMap<Integer, ArrayList<DetailedData>> detailedList;
     Receipt_dbAdapter receipt_db;
     SummaryAdapter myAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -116,4 +118,8 @@ public class ReceiptTab extends Fragment implements ReceiptSummaryEdit.ReceiptSu
         }
     }
 
+    @Override
+    public void onRefresh() {
+
+    }
 }

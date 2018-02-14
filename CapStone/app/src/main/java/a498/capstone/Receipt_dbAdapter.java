@@ -76,6 +76,11 @@ public class Receipt_dbAdapter{
             }
             contentValues.clear();
             String foodType = list.get(i)[0];
+
+            contentValues.put("Name", foodType);
+            db.insert("AdditionalFoods", null, contentValues);
+            contentValues.clear();
+
             int quantity = Integer.parseInt(list.get(i)[1]);
             contentValues.put("FoodType", foodType.toLowerCase());
             contentValues.put("Quantity", quantity);
@@ -92,9 +97,6 @@ public class Receipt_dbAdapter{
                 newDate = "N/A";
             else{
                 c1.add(Calendar.DATE, timeAdded);
-                int day = c1.get(Calendar.DAY_OF_MONTH);
-                int month = c1.get(Calendar.MONTH) + 1;
-                int year = c1.get(Calendar.YEAR);
                 newDate = sdf.format(c1.getTime());
             }
             contentValues.put("ExpiryDate", newDate);
@@ -205,16 +207,6 @@ public class Receipt_dbAdapter{
         return list;
     }
 
-    public void addAdditionalFoods(ArrayList<String> names){
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        for(String food : names){
-            contentValues.clear();
-            contentValues.put("Name", food);
-            db.insert("AdditionalFoods", null, contentValues);
-        }
-    }
-
     //Extending SQLiteOpenHelper, to allow for database creation and use
     static class receipt_dbHelper extends SQLiteOpenHelper {
 
@@ -323,7 +315,7 @@ public class Receipt_dbAdapter{
                 int quantity = Integer.parseInt(list.get(i)[1]);
                 contentValues.put("FoodType", foodType);
                 contentValues.put("Quantity", quantity);
-                FoodTastes currentFood = new FoodTastes();
+                FoodTastes currentFood;
                 int timeAdded = 0;
                 try {
                     currentFood = values.foods.get(values.map.get(foodType));
@@ -336,9 +328,6 @@ public class Receipt_dbAdapter{
                     newDate = "N/A";
                 else{
                     c1.add(Calendar.DATE, timeAdded);
-                    int day = c1.get(Calendar.DAY_OF_MONTH);
-                    int month = c1.get(Calendar.MONTH) + 1;
-                    int year = c1.get(Calendar.YEAR);
                     newDate = sdf.format(c1.getTime());
                 }
                 contentValues.put("ExpiryDate", newDate);
