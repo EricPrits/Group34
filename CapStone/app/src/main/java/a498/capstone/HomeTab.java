@@ -19,9 +19,9 @@ import java.util.Date;
  */
 
 public class HomeTab extends Fragment {
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                            Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_tab, container, false);
         ListView listView = rootView.findViewById(R.id.mainListView);
         myAdapter = new HomeAdapter(getContext(), mainList);
@@ -40,16 +40,15 @@ public class HomeTab extends Fragment {
     ArrayList<ArrayList<DetailedData>> allFoods;
     ArrayList<DetailedData> mainList;
     ArrayList<DetailedData> duplicatesList;
-    ArrayList<DetailedData> expiredList;
     ArrayList<DetailedData> alternativesList;
 
     //Creates an outline for date variables
     SimpleDateFormat curFormater = new SimpleDateFormat("yyyy-MM-ddd");
 
     //Creates a date variable that is the current date
-    Date currentDate = Calendar.getInstance().getTime();
-    Date expiryDate;
-    String foodExpiry;
+    //Date currentDate = Calendar.getInstance().getTime();
+    //Date expiryDate;
+    //String foodExpiry;
 
 
 
@@ -67,92 +66,94 @@ public class HomeTab extends Fragment {
             {
                 mainList.add(allFoods.get(i).get(j));
             }
-   }
-   // duplicatesList = keepDuplicates(mainList);
-    //expiredList  = keepExpired(mainList);
-    //alternativesList = keepAlternatives(mainList);
- }
+        }
+        duplicatesList = keepDuplicates(mainList);
+        //expiredList  = keepExpired(mainList);
+        //alternativesList = keepAlternatives(mainList);
+    }
 
     /////////////////////////////////////////////////////////////////////////////////////
     //Algorithm Functions - Returning Frequent Purchases
     /////////////////////////////////////////////////////////////////////////////////////
-       public ArrayList<DetailedData> keepDuplicates(ArrayList<DetailedData> list)
-       {
-          // duplicatesList =  new ArrayList<DetailedData>();
+    public ArrayList<DetailedData> keepDuplicates(ArrayList<DetailedData> list)
+    {
+        duplicatesList =  new ArrayList<DetailedData>();
 
-            //For every food item in the original list
-           for (int i = 0; i < mainList.size(); i++)
+        //For every food item in the original list
+        for (int i = 0; i < mainList.size(); i++)
+        {
+            int counter = 0;
+            //Iterate through the same list
+            for (int j = i; j < mainList.size(); j++)
             {
-               int counter = 0;
-               //Iterate through the same list
-               for (int j = i; j < mainList.size(); j++)
-               {
 
-                    //check if theres a repeated food
-                    if (mainList.get(i).getFoodType().equals(mainList.get(j).getFoodType())) {
-                        counter++;
-                   }
-
-                   //If a food is found twice on the list, add it to duplicate list
-                   if (counter >= 2){
-                       duplicatesList.add(mainList.get(i));
-                       break;
-                   }
+                //check if theres a repeated food
+                if (mainList.get(i).getFoodType().equals(mainList.get(j).getFoodType())) {
+                    counter++;
                 }
-         }
 
-          list = duplicatesList;
-          return list;
-      }
+                //If a food is found twice on the list, add it to duplicate list
+                if (counter >= 2){
+                    duplicatesList.add(mainList.get(i));
+                    break;
+                }
+            }
+        }
+
+        list = duplicatesList;
+        return list;
+    }
 
     /////////////////////////////////////////////////////////////////////////////////////
     //Algorithm Functions - Returning Foods that have been eaten/Expired
     /////////////////////////////////////////////////////////////////////////////////////
+//
+//    public ArrayList<DetailedData>keepExpired(ArrayList<DetailedData> list)
+//    {
+//        expiredList =  new ArrayList<DetailedData>();
+//
+//        for (int i = 0; i < mainList.size(); i++) {
+//
+//            String foodExpiry = mainList.get(i).getExpiryDate();
+//
+//            //Format string from database into a date variable
+//
+//            try{
+//                Date expiryDate = curFormater.parse(foodExpiry);
+//            }
+//            catch (java.text.ParseException e) {
+//                  e.printStackTrace();
+//            }
+//
+//            //If the current food has expired, add it to the expiredList
+//            if (currentDate.compareTo(expiryDate) > 1)
+//            {
+//                expiredList.add(mainList.get(i));
+//            }
+//        }
+//
+//        list = expiredList;
+//        return list;
+//    }
+//
+//    /////////////////////////////////////////////////////////////////////////////////////
+//    //Algorithm Functions - Returning Foods that are alternatives to users purchases
+//    /////////////////////////////////////////////////////////////////////////////////////
+//    public ArrayList<DetailedData> keepAlternatives(ArrayList<DetailedData> list)
+//    {
+//        alternativesList =  new ArrayList<DetailedData>();
+//
+//        //Iterate through mainList
+//        for (int i = 0; i < mainList.size(); i++) {
+//        //Find the alternate, if an alternate exists, add to alternativesList
+//
+//            // alternativesList.add(mainList.get(i).get)
+//        }
+//
+//        list = alternativesList;
+//        return list;
+//    }
+}
 
-    public ArrayList<DetailedData>keepExpired(ArrayList<DetailedData> list)
-    {
-        expiredList =  new ArrayList<DetailedData>();
 
-        for (int i = 0; i < mainList.size(); i++) {
-
-            String foodExpiry = mainList.get(i).getExpiryDate();
-
-            //Format string from database into a date variable
-
-            try{
-                Date expiryDate = curFormater.parse(foodExpiry);
-            }
-            catch (java.text.ParseException e) {
-                  e.printStackTrace();
-            }
-
-            //If the current food has expired, add it to the expiredList
-            if (currentDate.compareTo(expiryDate) > 1)
-            {
-                expiredList.add(mainList.get(i));
-            }
-        }
-
-        list = expiredList;
-        return list;
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////
-    //Algorithm Functions - Returning Foods that are alternatives to users purchases
-    /////////////////////////////////////////////////////////////////////////////////////
-    public ArrayList<DetailedData> keepAlternatives(ArrayList<DetailedData> list)
-    {
-        alternativesList =  new ArrayList<DetailedData>();
-
-        //Iterate through mainList
-        for (int i = 0; i < mainList.size(); i++) {
-        //Find the alternate, if an alternate exists, add to alternativesList
-
-            // alternativesList.add(mainList.get(i).get)
-        }
-
-        list = alternativesList;
-        return list;
-    }
- }
 
