@@ -40,10 +40,11 @@ public class HomeTab extends Fragment {
     ArrayList<ArrayList<DetailedData>> allFoods;
     ArrayList<DetailedData> mainList;
     ArrayList<DetailedData> duplicatesList;
-    ArrayList<DetailedData> alternativesList;
+    //ArrayList<DetailedData> expiredList;
+    //ArrayList<DetailedData> alternativesList;
 
     //Creates an outline for date variables
-    SimpleDateFormat curFormater = new SimpleDateFormat("yyyy-MM-ddd");
+    //SimpleDateFormat curFormater = new SimpleDateFormat("yyyy-MM-ddd");
 
     //Creates a date variable that is the current date
     //Date currentDate = Calendar.getInstance().getTime();
