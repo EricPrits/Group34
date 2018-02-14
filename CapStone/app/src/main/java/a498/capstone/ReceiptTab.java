@@ -26,7 +26,6 @@ import java.util.HashMap;
 
 public class ReceiptTab extends Fragment implements ReceiptSummaryEdit.ReceiptSummaryEditListener, SwipeRefreshLayout.OnRefreshListener{
     ArrayList<SummaryData> sumList;
-    HashMap<Integer, ArrayList<DetailedData>> detailedList;
     Receipt_dbAdapter receipt_db;
     SummaryAdapter myAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -39,6 +38,9 @@ public class ReceiptTab extends Fragment implements ReceiptSummaryEdit.ReceiptSu
         ListView listView = rootView.findViewById(R.id.receiptListView);
         myAdapter = new SummaryAdapter(getContext(), sumList);
         listView.setAdapter(myAdapter);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         // When item is list is clicked, start new Activity displaying details
         listView.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -106,7 +108,6 @@ public class ReceiptTab extends Fragment implements ReceiptSummaryEdit.ReceiptSu
     public void setData(){
         Cursor summaryData = receipt_db.getSummaryData();
         sumList = new ArrayList<SummaryData>();
-        detailedList = new HashMap<Integer, ArrayList<DetailedData>>();
         while(summaryData.moveToNext()){
             int id = summaryData.getInt(summaryData.getColumnIndex("_id"));
             String name = summaryData.getString(summaryData.getColumnIndex("Name"));
@@ -120,6 +121,10 @@ public class ReceiptTab extends Fragment implements ReceiptSummaryEdit.ReceiptSu
 
     @Override
     public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(true);
+        setData();
+        myAdapter.refreshData(sumList);
+        swipeRefreshLayout.setRefreshing(false);
 
     }
 }
