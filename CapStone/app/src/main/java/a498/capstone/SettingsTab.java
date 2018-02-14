@@ -27,6 +27,8 @@ public class SettingsTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.settings_tab, container, false);
+        SharedPreferences preferences = getActivity().getSharedPreferences(PREFS_NAME, getActivity().MODE_PRIVATE);
+        boolean useDarkTheme = preferences.getBoolean(PREF_DARK_THEME, false);
         Switch choice = rootView.findViewById(R.id.switch1);
         choice.setChecked(useDarkTheme);
         choice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
