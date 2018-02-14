@@ -50,14 +50,14 @@ public class RelatedFoods {
     }
 
 
-    public String getNewFood(String food) {
+    public DetailedData getNewFood(String food) {
         FoodTastes currentFood;
         try {
             currentFood = foods.get(map.get(food.toLowerCase()));
             String match = getMatch(currentFood);
-            return match;
+            return new DetailedData(match);
         } catch (Exception e) {
-            return food;
+            return new DetailedData(food);
         }
     }
 
