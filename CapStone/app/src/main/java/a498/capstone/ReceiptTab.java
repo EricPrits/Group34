@@ -77,6 +77,8 @@ public class ReceiptTab extends Fragment implements ReceiptSummaryEdit.ReceiptSu
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
         receipt_db = new Receipt_dbAdapter(getContext());
+        ArrayList<String> list = receipt_db.getAdditionalFoods();
+        ArrayList<String> list2 = receipt_db.getNewAdditionalFoods();
         setData();
     }
 

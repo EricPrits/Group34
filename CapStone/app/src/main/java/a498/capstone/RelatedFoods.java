@@ -86,7 +86,7 @@ public class RelatedFoods {
         return match;
     }
 
-    private ArrayList<String> getAllFoods(){
+    public ArrayList<String> getAllFoods(){
         return allFoods;
     }
 
