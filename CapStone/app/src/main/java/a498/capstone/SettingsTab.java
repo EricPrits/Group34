@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -78,6 +80,23 @@ public class SettingsTab extends Fragment implements AdditionalFoodsDeleteDialog
                 toggleTheme(isChecked);
             }
         });
+
+        final EditText et = rootView.findViewById(R.id.setName);
+        SharedPreferences preferences1 = getActivity().getSharedPreferences("NAME", getActivity().MODE_PRIVATE);
+        String name = preferences1.getString("Name", "Name");
+        et.setText(name);
+
+        Button button = rootView.findViewById(R.id.button4) ;
+        button.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                String name = et.getText().toString();
+                getActivity().getSharedPreferences("NAME", getActivity().MODE_PRIVATE)
+                        .edit()
+                        .putString("Name",name )
+                        .apply();
+            }
+        });
+
 
         return rootView;
     }

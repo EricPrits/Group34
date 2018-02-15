@@ -13,16 +13,42 @@
         android:layout_height="317dp"
         android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="8dp" />
-
+        tools:layout_editor_absoluteX="8dp"></ListView>
     <Switch
         android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="111dp"
-        android:text="Switch"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="49dp"
+        android:text="Dark Theme"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="@+id/button4"
+        app:layout_constraintRight_toRightOf="@+id/button4"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setName" />
+
+    <EditText
+        android:id="@+id/setName"
+        android:layout_width="185dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="38dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="29dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Click to Update Name"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

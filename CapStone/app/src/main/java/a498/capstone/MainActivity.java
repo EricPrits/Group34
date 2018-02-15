@@ -1,12 +1,14 @@
 package a498.capstone;
 
 
+import android.app.Activity;
 import android.app.ListActivity;
 
 import android.content.Intent;
 
 import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity  {
             setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        checkFirstRun();
 
 
         // Create the adapter that will return a fragment for each of the three
@@ -144,6 +147,21 @@ public class MainActivity extends AppCompatActivity  {
         public int getCount() {
             // Show 4 total pages.
             return 4;
+        }
+    }
+
+    public void checkFirstRun() {
+        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
+        if (isFirstRun){
+
+            DialogFragment dialog = new GetUserName();
+            String tag = "GetName";
+            dialog.show(getSupportFragmentManager(), tag);
+
+            getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                    .edit()
+                    .putBoolean("isFirstRun", false)
+                    .apply();
         }
     }
 
