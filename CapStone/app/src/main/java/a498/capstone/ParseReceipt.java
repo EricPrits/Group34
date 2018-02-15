@@ -77,7 +77,7 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
         final ListView listView = findViewById(R.id.parsedListView);
         listView.setItemsCanFocus(true);
 
-        notRecognized = new ArrayList<String>();
+
 
         receipt_db= new Receipt_dbAdapter(context);
         parsed = new ArrayList<String[]>();
@@ -195,6 +195,7 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
 
     public void updateKnownFoods(ArrayList<String[]> input, ArrayList<String> foodNames){
         String[] temp = new String[2];
+        notRecognized = new ArrayList<String>();
         int replaced =0;
         for(int i=0; i<input.size();i++){
             for(int j=0; j<foodNames.size();j++){

@@ -45,17 +45,10 @@ public class UpdateKnownFoodsDialog extends DialogFragment {
         String messageText;
         String messageText2;
 
-        if(list.size()<3 && list.size()>0){
-            String temp= "";
-            for(int i=0; i<list.size();i++)
-                temp = temp + ", " +list.get(i);
-            messageText2= "The following item(s) will be added to known foods:" ;
-            messageText =temp+ ", known foods can be altered in the settings tab later";
-        }
-        else {
-            messageText2 = list.size() + " items will be added to known foods,";
-            messageText ="known foods can be altered in the settings tab later";
-        }
+
+
+        messageText2 = list.size() + " item(s) will be added to known foods,";
+        messageText ="known foods can be altered in the settings tab";
 
         builder.setView(lay)
                 .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
