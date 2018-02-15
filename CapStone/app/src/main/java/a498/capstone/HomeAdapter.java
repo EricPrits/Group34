@@ -1,6 +1,7 @@
 package a498.capstone;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,12 @@ public class HomeAdapter extends ArrayAdapter<DetailedData> {
 
         TextView Name = convertView.findViewById(R.id.itemName);
         Name.setText(data.getFoodType());
+        if(position %2 == 1){
+            Name.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
+        }
+        else{
+            Name.setBackgroundColor(Color.TRANSPARENT);
+        }
         return convertView;
     }
 

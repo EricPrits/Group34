@@ -37,6 +37,7 @@ import java.util.HashMap;
 import android.widget.ListAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
 
 
 public class MainActivity extends AppCompatActivity  {
@@ -72,8 +73,6 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
 
 
-       // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -90,6 +89,7 @@ public class MainActivity extends AppCompatActivity  {
         tabLayout.getTabAt(1).setIcon(R.drawable.list);
         tabLayout.getTabAt(2).setIcon(R.drawable.camera);
         tabLayout.getTabAt(3).setIcon(R.drawable.settings);
+
     }
 
 
