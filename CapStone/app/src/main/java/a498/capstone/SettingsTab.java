@@ -42,6 +42,9 @@ public class SettingsTab extends Fragment implements AdditionalFoodsDeleteDialog
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.settings_tab, container, false);
+        SharedPreferences preferences = getActivity().getSharedPreferences(PREFS_NAME, getActivity().MODE_PRIVATE);
+        boolean useDarkTheme = preferences.getBoolean(PREF_DARK_THEME, false);
+
         list = new ArrayList<String>();
         receipt_db = new Receipt_dbAdapter(getContext());
         list =receipt_db.getNewAdditionalFoods();
@@ -65,6 +68,7 @@ public class SettingsTab extends Fragment implements AdditionalFoodsDeleteDialog
                 return true;
             }
         });
+
 
         Switch choice = rootView.findViewById(R.id.switch1);
         choice.setChecked(useDarkTheme);
