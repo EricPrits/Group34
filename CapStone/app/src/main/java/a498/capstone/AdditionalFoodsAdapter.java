@@ -1,6 +1,7 @@
 package a498.capstone;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -81,6 +82,12 @@ public class AdditionalFoodsAdapter extends BaseAdapter{
         itemView.setText(list.get(position));
 
         holder.itemText.setText(list.get(position));
+        if(position %2 == 1){
+            holder.itemText.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
+        }
+        else{
+            holder.itemText.setBackgroundColor(Color.TRANSPARENT);
+        }
         holder.itemText.addTextChangedListener(new TextWatcher() {
 
             @Override

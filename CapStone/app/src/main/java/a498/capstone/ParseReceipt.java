@@ -73,6 +73,7 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
         setContentView(R.layout.parse_receipt);
         final Context context = getApplicationContext();
 
+
         final ListView listView = findViewById(R.id.parsedListView);
         listView.setItemsCanFocus(true);
 

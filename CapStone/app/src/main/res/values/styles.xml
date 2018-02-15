@@ -8,13 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Theme2" parent ="Theme.AppCompat.Light">
+    <style name="Theme2" parent ="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary2</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark2</item>
         <item name="colorAccent">@color/colorAccent2</item>
-        <item name="windowActionBar">true</item>
-        <item name="windowNoTitle">true</item>
-
     </style>
 
 
