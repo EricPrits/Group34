@@ -207,13 +207,19 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
                 notRecognized.add(input.get(i)[0]);
             }
         }
-        Bundle bundle = new Bundle();
-        bundle.putStringArrayList("List", notRecognized);
-        UpdateKnownFoodsDialog dialog = new UpdateKnownFoodsDialog();
-        dialog.setArguments(bundle);
-        dialog.setListener(ParseReceipt.this);
-        String tag = "UpdateKnownFoodsDialog";
-        dialog.show(getSupportFragmentManager(), tag);
+        if(notRecognized.size()!=0) {
+            Bundle bundle = new Bundle();
+            bundle.putStringArrayList("List", notRecognized);
+            UpdateKnownFoodsDialog dialog = new UpdateKnownFoodsDialog();
+            dialog.setArguments(bundle);
+            dialog.setListener(ParseReceipt.this);
+            String tag = "UpdateKnownFoodsDialog";
+            dialog.show(getSupportFragmentManager(), tag);
+        }
+        else {
+            receipt_db.addReceipt(editName.getText().toString(), editDate.getText().toString(), finalResult);
+            finish();
+        }
     }
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.parse_menu, menu);
@@ -282,6 +288,14 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
         int quantity= 0;
         String itemName="blank";
         line=line.toLowerCase();
+        if (line.contains("yog")) {
+            //skipline
+            line="yogurt";
+        }
+        if (line.contains("chse")) {
+            //skipline
+            line="cheese";
+        }
 
         for(int i =0; i<line.length();i++){
             if(line.charAt(i)=='('){
