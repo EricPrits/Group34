@@ -98,9 +98,6 @@ public class MainActivity extends AppCompatActivity  {
      *
      */
 
-
-
-    
     public void openCamera(View view){
         Intent intent = new Intent(view.getContext(), OcrCaptureActivity.class);
         //intent.putExtra("array_list", array);
