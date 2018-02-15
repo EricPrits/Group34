@@ -209,7 +209,7 @@ public class Receipt_dbAdapter{
 
     public void deleteAdditionalFoods(String name){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        db.delete("AdditionalFoods", "Name = "+name, null);
+        db.delete("AdditionalFoods", "Name = '"+name+"'", null);
     }
 
     public ArrayList<String> getNewAdditionalFoods(){
@@ -248,7 +248,7 @@ public class Receipt_dbAdapter{
          */
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(CREATE_TABLE);
-            db.execSQL("CREATE TABLE AdditionalFoods (id integer primary key, Name VARCHAR(255));");
+            db.execSQL("CREATE TABLE AdditionalFoods (id integer primary key, Name VARCHAR(255), unique(Name));");
             insertFoods(db);
             ArrayList<String[]> list = new ArrayList<String[]>();
             list.add(foodList("Apple juice", "1"));

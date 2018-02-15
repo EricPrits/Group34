@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content" >
 
     <EditText
@@ -14,12 +14,12 @@
 
     <EditText
         android:id="@+id/quantity_entry"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_weight="0"
         android:inputType="number"
-        android:maxLines="1"
+        android:maxLines="0"
         android:textSize="28dp" />
 
 </LinearLayout>

@@ -9,7 +9,7 @@
 
     <ListView
         android:id="@+id/additionalFoodsList"
-        android:layout_width="344dp"
+        android:layout_width="match_parent"
         android:layout_height="317dp"
         android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
