@@ -83,10 +83,10 @@ public class AdditionalFoodsAdapter extends BaseAdapter{
 
         holder.itemText.setText(list.get(position));
         if(position %2 == 1){
-            holder.itemText.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
+            holder.itemText.setBackgroundColor(Color.TRANSPARENT);
         }
         else{
-            holder.itemText.setBackgroundColor(Color.TRANSPARENT);
+            holder.itemText.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
         }
         holder.itemText.addTextChangedListener(new TextWatcher() {
 

@@ -94,12 +94,12 @@ public class ParsedAdapter extends BaseAdapter{
         itemView.setText(list.get(position)[0]);
         quantityView.setText(list.get(position)[1]);
         if(position %2 == 1){
-            holder.itemText.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
-            holder.quantityText.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
-        }
-        else{
             holder.itemText.setBackgroundColor(Color.TRANSPARENT);
             holder.quantityText.setBackgroundColor(Color.TRANSPARENT);
+        }
+        else{
+            holder.itemText.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
+            holder.quantityText.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
         }
 
         holder.itemText.setText(list.get(position)[0]);

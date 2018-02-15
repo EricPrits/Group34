@@ -34,10 +34,10 @@ public class HomeAdapter extends ArrayAdapter<DetailedData> {
         TextView Name = convertView.findViewById(R.id.itemName);
         Name.setText(data.getFoodType());
         if(position %2 == 1){
-            Name.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
+            Name.setBackgroundColor(Color.TRANSPARENT);
         }
         else{
-            Name.setBackgroundColor(Color.TRANSPARENT);
+            Name.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
         }
         return convertView;
     }

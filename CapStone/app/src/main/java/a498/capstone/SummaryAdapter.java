@@ -41,12 +41,12 @@ public class SummaryAdapter extends ArrayAdapter<SummaryData> {
         nameView.setText(data.getName());
         dateView.setText(data.getDate());
         if(position %2 == 1){
-            nameView.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
-            dateView.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
-        }
-        if(position == 0){
             nameView.setBackgroundColor(Color.TRANSPARENT);
             dateView.setBackgroundColor(Color.TRANSPARENT);
+        }
+        else{
+            nameView.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
+            dateView.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
         }
 
         return convertView;

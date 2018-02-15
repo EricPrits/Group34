@@ -38,12 +38,12 @@ public class DetailedAdapter extends ArrayAdapter<DetailedData> {
         tv1.setText(data.getFoodType());
         tv2.setText(Integer.toString(data.getQuantity()));
         if(position %2 == 1){
-            tv1.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
-            tv2.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
-        }
-        else{
             tv1.setBackgroundColor(Color.TRANSPARENT);
             tv2.setBackgroundColor(Color.TRANSPARENT);
+        }
+        else{
+            tv1.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
+            tv2.setBackgroundColor(Color.parseColor("#AFAFAFAF"));
         }
 
 
