@@ -75,11 +75,12 @@ public class HomeTab extends Fragment {
         }
 
         duplicatesList = keepDuplicates(mainList);
-        //expiredList = keepDuplicates(mainList);
+        expiredList = keepExpired(mainList);
         alternativesList = keepAlternatives(mainList);
         mainList.clear();
         mainList.addAll(duplicatesList);
         mainList.addAll(alternativesList);
+        mainList.addAll(expiredList);
 
     }
 
@@ -130,7 +131,7 @@ public class HomeTab extends Fragment {
             //Format string from database into a date variable
 
             try{
-                Date expiryDate = curFormater.parse(foodExpiry);
+                expiryDate = curFormater.parse(foodExpiry);
             }
             catch (java.text.ParseException e) {
 
@@ -138,10 +139,10 @@ public class HomeTab extends Fragment {
 
 
             //If the current food has expired, add it to the expiredList
-          // if (currentDate.compareTo(expiryDate) > 1)
-          //  {
+          if (currentDate.compareTo(expiryDate) > 1)
+          {
                 expiredList.add(mainList.get(i));
-           // }
+           }
         }
 
         list = expiredList;
