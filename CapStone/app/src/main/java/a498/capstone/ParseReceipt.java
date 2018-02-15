@@ -139,11 +139,13 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
         final ArrayList<String> foodNames = receipt_db.getAdditionalFoods();
         int replaced =0;
         for(int i=0; i<parsed.size();i++){
+            replaced=0;
             for(int j=0; j<foodNames.size();j++){
                 if(parsed.get(i)[0].contains(foodNames.get(j).toLowerCase())) {
-                    temp[0] = foodNames.get(j).toLowerCase();
-                    temp[1] = parsed.get(i)[1];
-                    arrayMatched.add(temp);
+                    String[] temp1 = new String[2];
+                    temp1[0] = foodNames.get(j).toLowerCase();
+                    temp1[1] = parsed.get(i)[1];
+                    arrayMatched.add(temp1);
                     replaced =1;
                     break;
                 }
@@ -293,7 +295,7 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
                     itemName = line.substring(i+4);
                 }
             }
-            if (line.contains("$") || line.contains("@") || line.contains("kg") || line.length()<=3 || line.contains(".99") || line.contains("%")||line.contains("plastic")||line.contains("%")) {
+            if (line.contains("$") || line.contains("@") || line.contains("kg") || line.length()<=3 || line.contains(".99") || line.contains("%")||line.contains("plastic")||line.contains("%")||line.contains("&")) {
                 //skipline
                 itemName="skip";
             }
@@ -312,7 +314,7 @@ public class ParseReceipt extends AppCompatActivity implements SpellCheckerSessi
             quantity = 1;
             itemName=line;
         }
-        if (line.contains("meat") || line.contains("produce")|| line.contains("frozen food")  || line.contains("dairy") || line.contains("general merc")||line.contains("seafood")||line.contains("conn. bakery")||line.contains("grocery")) {
+        if (line.contains("meat") || line.contains("produce")|| line.contains("frozen food")  || line.contains("dairy") || line.contains("general")||line.contains("seafood")||line.contains("bakery")||line.contains("grocery")||line.contains("metro")||line.contains("total")||line.contains("deli")) {
             //skipline
             itemName="skip";
         }
